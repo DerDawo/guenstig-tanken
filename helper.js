@@ -13,13 +13,16 @@ export function debounce(func, wait) {
 }
 
 export function capitalize(s) {
-    return s[0].toUpperCase() + s.slice(1);
+    return s.split('-')
+            .map(part => part[0].toUpperCase() + part.slice(1))
+            .join('-');
 }
+
 
 export function $id(id){
     return document.getElementById(id);
 }
 
 export function $class(id){
-    return document.getElemntsByClassname(id);
+    return document.getElementsByClassname(id);
 }

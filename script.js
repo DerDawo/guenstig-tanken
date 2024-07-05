@@ -14,7 +14,10 @@ const radius_input = $id('radius-input');
 const reset_filters_button = $id('reset-button');
 
 // Variables
-let lastSearchMarker;
+// Add a marker at the Berlin Main Station
+let lastSearchMarker = L.marker([52.5200, 13.4050], { icon: LocationIcon() })
+    .addTo(map)
+    .bindPopup('Berlin');
 let searchMarkers = [];
 let gasStations = [];
 
@@ -90,12 +93,34 @@ function addGasStationMarker(station){
 }
 
 function addGasStationListItem(station){
-    
+    const listItem = `
+        <div class="gasStationListItem" id="${station.id}" data-open="${station.isOpen}">
+            <div class="gasStationGeneral">
+                <div>
+                    <p class="dist" >${station.dist} km</p>
+                    <p class="brand" >${station.brand}</p>
+                </div>
+                <div>
+                    <p class="postCode" >${station.postCode}</p>
+                    <p class="place" >${capitalize(station.place.toLowerCase())}</p>
+                </div>
+                <div>
+                    <p class="street" >${capitalize(station.street.toLowerCase())}</p>
+                    <p class="houseNumber" >${station.houseNumber}</p>
+                </div>
+            </div>
+            <div class="gasStationPrice">
+                <p class="price" >${station.price}&nbsp;€</p>
+                <p class="gasType" >${capitalize(gas_type_input.value)}</p>
+            </div>
+        </div>
+    `
+    $id("results").innerHTML += listItem
 }
 
 // Search the gas stations
 function searchGasStations() {
-    
+
     var radius = radius_input.value || 25;
 
     if ( !lastSearchMarker || !radius || !gas_type_input.value ){
@@ -135,6 +160,9 @@ function searchGasStations() {
 
 // Debounce searchGasStations
 function DebouncedSearchGasStations(){
+        
+    console.log("HERE")
+
     debounce(searchGasStations, 1000)
 }
 
@@ -206,7 +234,7 @@ search_location_button.addEventListener('click', searchLocation);
 current_location_button.addEventListener('click', locateUser);
 gas_type_input.addEventListener('change', DebouncedSearchGasStations);
 radius_input.addEventListener('input', DebouncedSearchGasStations);
-document.getElementById('reset-button').addEventListener('click', resetFilters);
+reset_filters_button.addEventListener('click', resetFilters);
 
 // Init App
 // Add a tile layer to the map (this one is free from OpenStreetMap)
@@ -215,7 +243,3 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: ''
 }).addTo(map);
 
-// Add a marker at the Berlin Main Station
-L.marker([52.5200, 13.4050], { icon: LocationIcon() })
-    .addTo(map)
-    .bindPopup('Berlin')
