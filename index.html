@@ -1,19 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Günstig Tanken</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="./helper.js" type="module" defer></script>
+    <script src="./components.js" type="module" defer></script>
 </head>
+
 <body>
     <div class="app-bar">
-
+        <button id="current-location-button">
+            <i class="fa-solid fa-location-crosshairs"></i>
+        </button>
+        <input id="pac-input" class="controls" type="text" placeholder="Standort eingeben">
+        <button id="search-location-button">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
     </div>
-    <div class="map-view">
-
-    </div>
+    <div id="map" class="map-view"></div>
     <div class="gast-station-list">
-        
+        <div class="filter">
+            <button id="toggle-list-size-button" title="Liste ausklappen">
+                <i class="fa-solid fa-maximize"></i>
+            </button>
+            <select id="gas-type" title="Treibstoff">
+                <option value="diesel">Diesel</option>
+                <option value="e5">E5</option>
+                <option value="e10">E10</option>
+            </select>
+            <input id="radius-input" type="number" title="Suchradius" placeholder="Radius in km" value="25">
+            <button id="reset-button" title="Filter zurücksetzen">
+                <i class="fa-solid fa-arrow-rotate-left"></i>
+            </button>
+        </div>
+        <div class="results"></div>
     </div>
+    <script src="./script.js" type="module"></script>
 </body>
+
 </html>

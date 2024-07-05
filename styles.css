@@ -1,0 +1,105 @@
+body{
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-rows: auto 40% 1fr;
+    grid-template-columns: 100%;
+    height: 100vh;
+}
+
+body.focus-map{
+    grid-template-rows: auto 60% 1fr;
+}
+body.focus-list{
+    grid-template-rows: auto 20% 1fr;
+}
+
+.app-bar{
+    background-color: #243860;
+    display: grid;
+    grid-template-columns: 35px auto 35px;
+    justify-items: stretch;
+    align-content: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+#pac-input{
+    background-color: transparent;
+    border-radius: 5px;
+    border: 2px white solid;
+    cursor: pointer;
+    transition: 0.2s;
+    color: white;
+    padding: 5px;
+    font-size: 1rem;
+    height: auto;
+    outline: none;
+}
+
+#search-location-button{
+    border: 2px white solid;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 1rem;
+    height: 100%;
+    width: 100%;
+    color: #243860;
+}
+
+#current-location-button{
+    background-color: transparent;
+    border: 2px white solid;
+    border-radius: 5px;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    transition: 0.2s;
+    color: white;
+    font-size: 1rem;
+    height: 100%;
+    width: 100%;
+}
+
+#current-location-button:hover{
+    color: white;
+}
+
+#current-location-button.location-found{
+    color: #243860;
+    background-color: white;
+}
+
+.map-view{
+    background-color: antiquewhite;
+    width: 100%;
+}
+
+.gas-station-list{
+    height: 100%;
+    background-color: #d4d4d4;
+}
+
+.filter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.filter > *{
+    text-align: center;
+    font-size: 1rem;
+    width: 100%;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    background-color: #ccc;
+}
+
+.filter > *:hover{
+    border: 2px solid #adadad;
+    background-color: #adadad;
+}
