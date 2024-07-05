@@ -26,21 +26,21 @@
         </button>
     </div>
     <div id="map" class="map-view"></div>
-    <div class="gast-station-list">
-        <div class="filter">
-            <button id="toggle-list-size-button" title="Liste ausklappen">
-                <i class="fa-solid fa-maximize"></i>
-            </button>
-            <select id="gas-type" title="Treibstoff">
-                <option value="diesel">Diesel</option>
-                <option value="e5">E5</option>
-                <option value="e10">E10</option>
-            </select>
-            <input id="radius-input" type="number" title="Suchradius" placeholder="Radius in km" value="25">
-            <button id="reset-button" title="Filter zurücksetzen">
-                <i class="fa-solid fa-arrow-rotate-left"></i>
-            </button>
-        </div>
+    <div class="filter">
+        <button id="toggle-list-size-button" title="Liste ausklappen">
+            <i class="fa-solid fa-maximize"></i>
+        </button>
+        <select id="gas-type" title="Treibstoff">
+            <option value="diesel">Diesel</option>
+            <option value="e5">E5</option>
+            <option value="e10">E10</option>
+        </select>
+        <input id="radius-input" type="number" title="Suchradius" placeholder="Radius in km" value="25">
+        <button id="reset-button" title="Filter zurücksetzen">
+            <i class="fa-solid fa-arrow-rotate-left"></i>
+        </button>
+    </div>
+    <div class="gas-station-list">
         <div class="results" id="results"></div>
     </div>
     <script src="./script.js" type="module"></script>

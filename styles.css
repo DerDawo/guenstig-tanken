@@ -2,7 +2,7 @@ body{
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-rows: auto 40% 1fr;
+    grid-template-rows: auto 40% auto 1fr;
     grid-template-columns: 100%;
     height: 100vh;
     max-height: 100vh;
@@ -10,10 +10,10 @@ body{
 }
 
 body.focus-map{
-    grid-template-rows: auto 60% 1fr;
+    grid-template-rows: auto 60% auto 1fr;
 }
 body.focus-list{
-    grid-template-rows: auto 20% 1fr;
+    grid-template-rows: auto 20% auto 1fr;
 }
 
 .app-bar{
@@ -79,7 +79,9 @@ body.focus-list{
 
 .gas-station-list{
     height: 100%;
-    background-color: #d4d4d4;
+    overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
 }
 
 .filter{
