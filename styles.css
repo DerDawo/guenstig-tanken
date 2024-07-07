@@ -38,7 +38,7 @@ body.focus-list {
     transition: 0.2s;
     color: white;
     padding: 5px;
-    font-size: 1rem;
+    font-size: 14px;
     height: auto;
     outline: none;
 }
@@ -83,6 +83,39 @@ body.focus-list {
     width: 100%;
 }
 
+#toggle-map-focus {
+    display: none;
+}
+
+#toggle-map-focus:checked~.fa-maximize {
+    display: none;
+}
+
+#toggle-map-focus:not(:checked)~.fa-minimize {
+    display: none;
+}
+
+#toggle-map-size-button {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 9999;
+    background-color: #f4f4f4;
+    font-size: 14px;
+    height: 31px;
+    width: 31px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 2px solid #0003;
+}
+
+#toggle-map-size-button:hover {
+    background-color: #e2e2e2;
+}
+
 
 /*FILTER*/
 .filter {
@@ -123,7 +156,23 @@ body.focus-list {
     aspect-ratio: 1 / 1;
     border-radius: 25px;
     background-color: #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+#toggle-list-focus {
+    display: none;
+}
+
+#toggle-list-focus:checked~.fa-maximize {
+    display: none;
+}
+
+#toggle-list-focus:not(:checked)~.fa-minimize {
+    display: none;
+}
+
 
 #radius-input {
     width: 60px;
@@ -135,7 +184,10 @@ body.focus-list {
     padding: 0 5px;
 }
 
-#gas-type:hover, #reset-button:hover, #toggle-list-size-button:hover, #radius-input:hover{
+#gas-type:hover,
+#reset-button:hover,
+#toggle-list-size-button:hover,
+#radius-input:hover {
     background-color: #ccc;
 }
 

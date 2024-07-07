@@ -25,7 +25,13 @@
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </div>
-    <div id="map" class="map-view"></div>
+    <div id="map" class="map-view">
+        <label class="map-option" for="toggle-map-focus" id="toggle-map-size-button" title="Karte ausklappen">
+            <input type="checkbox" id="toggle-map-focus">
+            <i class="fa-solid fa-maximize"></i>
+            <i class="fa-solid fa-minimize"></i>
+        </label>
+    </div>
     <div class="filter">
         <toggle-slider class="filter-option" id="sorting"></toggle-slider>
         <select class="filter-option" id="gas-type" title="Treibstoff">
@@ -37,9 +43,11 @@
         <button class="filter-option" id="reset-button" title="Filter zurücksetzen">
             <i class="fa-solid fa-arrow-rotate-left"></i>
         </button>
-        <button class="filter-option" id="toggle-list-size-button" title="Liste ausklappen">
+        <label class="filter-option" for="toggle-list-focus" id="toggle-list-size-button" title="Liste ausklappen">
+            <input type="checkbox" id="toggle-list-focus">
             <i class="fa-solid fa-maximize"></i>
-        </button>
+            <i class="fa-solid fa-minimize"></i>
+        </label>
     </div>
     <div class="gas-station-list">
         <div class="results" id="results"></div>

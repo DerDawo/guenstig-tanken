@@ -13,6 +13,9 @@ const gas_type_input = $id('gas-type');
 const radius_input = $id('radius-input');
 const reset_filters_button = $id('reset-button');
 const sorting_slider = $id('sorting');
+const toggle_map_focus_button = $id('toggle-map-focus')
+const toggle_list_focus_button = $id('toggle-list-focus')
+
 
 // Variables
 // Add a marker at the Berlin Main Station
@@ -98,7 +101,8 @@ function emptyGasStationList(){
 }
 
 function fillGasStationList(){
-    
+    emptyGasStationList()
+    gasStations.forEach(station => addGasStationListItem(station))
 }
 
 function addGasStationListItem(station){
@@ -140,12 +144,14 @@ function sortGasStationListByPrice(){
     gasStations.sort(function(a,b){
         return a.price >= b.price
     })
+    fillGasStationList()
 }
 
 function sortGasStationListByDistance(){
     gasStations.sort(function(a,b){
         return a.dist >= b.dist
     })
+    fillGasStationList()
 }
 
 // Search the gas stations
@@ -175,12 +181,12 @@ function searchGasStations() {
 
             gasStations = data.stations
 
-            emptyGasStationList()
-
             data.stations.forEach(station => { 
                 addGasStationMarker(station)
-                addGasStationListItem(station)
             });
+
+            fillGasStationList()
+
             showSnackbar(`Es wurden ${data.stations.length} Tankstelle(n) gefunden.`, 5000)
 
         })
@@ -223,6 +229,48 @@ function resetFilters() {
     searchGasStation()
 }
 
+function toggleListFocus(){
+    if(this.checked){
+        maximizeList()
+    }
+    if(!this.checked){
+        minimizeList()
+    }
+}
+
+function toggleMapFocus(){
+    if(this.checked){
+        maximizeMap()
+    }
+    if(!this.checked){
+        minimizeMap()
+    }
+}
+
+function maximizeList(){
+    if(document.body.classList.contains('focus-map')){
+        minimizeMap()
+    }
+    document.body.classList.add("focus-list")
+}
+
+function minimizeList(){
+    document.body.classList.remove("focus-list")
+}
+
+function maximizeMap(){
+    if(document.body.classList.contains('focus-list')){
+        minimizeList()
+    }
+    document.body.classList.add("focus-map")
+}
+
+function minimizeMap(){
+    document.body.classList.remove("focus-map")
+}
+
+
+
 // Events
 // Success when the user's position found
 map.on('locationfound', function (e) {
@@ -260,7 +308,8 @@ gas_type_input.addEventListener('change', searchGasStations);
 radius_input.addEventListener('input', searchGasStations);
 reset_filters_button.addEventListener('click', resetFilters);
 sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
-
+toggle_map_focus_button.addEventListener('change',toggleMapFocus)
+toggle_list_focus_button.addEventListener('change',toggleListFocus)
 
 // Init App
 // Add a tile layer to the map (this one is free from OpenStreetMap)
