@@ -97,6 +97,10 @@ function emptyGasStationList(){
     $id("results").innerHTML = ``
 }
 
+function fillGasStationList(){
+    
+}
+
 function addGasStationListItem(station){
     const listItem = `
         <div class="gasStationListItem" id="${station.id}" data-open="${station.isOpen}">
@@ -133,11 +137,15 @@ function toggleGasStationListSorting(){
 }
 
 function sortGasStationListByPrice(){
-    
+    gasStations.sort(function(a,b){
+        return a.price >= b.price
+    })
 }
 
 function sortGasStationListByDistance(){
-
+    gasStations.sort(function(a,b){
+        return a.dist >= b.dist
+    })
 }
 
 // Search the gas stations
