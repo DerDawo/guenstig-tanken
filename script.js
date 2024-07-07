@@ -1,4 +1,4 @@
-import {capitalize, debounce, $id, $class} from "./helper.js";
+import {capitalize, $id, $class} from "./helper.js";
 import {showSnackbar} from "./components.js"
 
 // Constants
@@ -12,6 +12,7 @@ const location_input = $id('pac-input');
 const gas_type_input = $id('gas-type');
 const radius_input = $id('radius-input');
 const reset_filters_button = $id('reset-button');
+const sorting_slider = $id('sorting');
 
 // Variables
 // Add a marker at the Berlin Main Station
@@ -92,6 +93,10 @@ function addGasStationMarker(station){
     searchMarkers.push(marker);
 }
 
+function emptyGasStationList(){
+    $id("results").innerHTML = ``
+}
+
 function addGasStationListItem(station){
     const listItem = `
         <div class="gasStationListItem" id="${station.id}" data-open="${station.isOpen}">
@@ -118,17 +123,34 @@ function addGasStationListItem(station){
     $id("results").innerHTML += listItem
 }
 
+function toggleGasStationListSorting(){
+ if(this.value === "Price"){
+    sortGasStationListByPrice()
+ }
+ if(this.value === "Distance"){
+    sortGasStationListByDistance()
+ }
+}
+
+function sortGasStationListByPrice(){
+    
+}
+
+function sortGasStationListByDistance(){
+
+}
+
 // Search the gas stations
 function searchGasStations() {
 
-    var radius = radius_input.value || 25;
+    const radius = radius_input.value || 25;
 
     if ( !lastSearchMarker || !radius || !gas_type_input.value ){
         showSnackbar("Bitte geben Sie eine Adresse, einen Treibstoff und den Suchradius ein.", 5000)
         return
     }
 
-    var latlng = lastSearchMarker.getLatLng();
+    const latlng = lastSearchMarker.getLatLng();
 
     fetch(`https://creativecommons.tankerkoenig.de/json/list.php?lat=${latlng.lat}&lng=${latlng.lng}&rad=${radius}&sort=dist&type=${gas_type_input.value}&apikey=6364803c-c10f-2f91-6b61-b4bda5cdfe4c`)
         .then(response => response.json())
@@ -145,6 +167,8 @@ function searchGasStations() {
 
             gasStations = data.stations
 
+            emptyGasStationList()
+
             data.stations.forEach(station => { 
                 addGasStationMarker(station)
                 addGasStationListItem(station)
@@ -156,14 +180,6 @@ function searchGasStations() {
             console.error('Error:', error);
             showSnackbar("Es trat ein Fehler beim Suchen von Tankstellen auf.", 5000)
         });
-}
-
-// Debounce searchGasStations
-function DebouncedSearchGasStations(){
-        
-    console.log("HERE")
-
-    debounce(searchGasStations, 1000)
 }
 
 // Location icon
@@ -232,9 +248,11 @@ map.on('locationerror', function (e) {
 // EventListeners
 search_location_button.addEventListener('click', searchLocation);
 current_location_button.addEventListener('click', locateUser);
-gas_type_input.addEventListener('change', DebouncedSearchGasStations);
-radius_input.addEventListener('input', DebouncedSearchGasStations);
+gas_type_input.addEventListener('change', searchGasStations);
+radius_input.addEventListener('input', searchGasStations);
 reset_filters_button.addEventListener('click', resetFilters);
+sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
+
 
 // Init App
 // Add a tile layer to the map (this one is free from OpenStreetMap)

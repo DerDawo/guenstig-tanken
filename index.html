@@ -27,9 +27,7 @@
     </div>
     <div id="map" class="map-view"></div>
     <div class="filter">
-        <button id="toggle-list-size-button" title="Liste ausklappen">
-            <i class="fa-solid fa-maximize"></i>
-        </button>
+        <toggle-slider id="sorting"></toggle-slider>
         <select id="gas-type" title="Treibstoff">
             <option value="diesel">Diesel</option>
             <option value="e5">E5</option>
@@ -38,6 +36,9 @@
         <input id="radius-input" type="number" title="Suchradius" placeholder="Radius in km" value="25">
         <button id="reset-button" title="Filter zurücksetzen">
             <i class="fa-solid fa-arrow-rotate-left"></i>
+        </button>
+        <button id="toggle-list-size-button" title="Liste ausklappen">
+            <i class="fa-solid fa-maximize"></i>
         </button>
     </div>
     <div class="gas-station-list">
