@@ -1,6 +1,12 @@
 .slider-container {
     position: relative;
-    width: 140px;
+    width: 90px;
+    font-size: 14px;
+    font-family: 'Tahoma';
+}
+
+.slider-label:hover{
+    background-color: #ccc;
 }
 
 .slider-checkbox {
@@ -28,7 +34,7 @@
     position: absolute;
     width: 50%;
     height: calc(100% - 10px);
-    width: calc(50% - 10px);
+    width: calc(50% - 5px);
     background-color: #243680;
     border-radius: 25px;
     transition: transform 0.3s;
@@ -36,7 +42,7 @@
 }
 
 .slider-checkbox:checked + .slider-label:before {
-    transform: translateX(calc(100% + 10px));
+    transform: translateX(calc(100% + 0px));
 }
 
 .slider-text {
@@ -57,4 +63,4 @@
     color: #000;
 }
 
-    
+  

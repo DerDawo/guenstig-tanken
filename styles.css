@@ -99,6 +99,7 @@ body.focus-list {
     font-size: 14px;
 }
 
+
 #gas-type {
     border: 0px;
     height: 100%;
@@ -106,7 +107,6 @@ body.focus-list {
     padding: 0 10px;
     background-color: #ddd;
 }
-
 
 #reset-button {
     border: 0;
@@ -133,6 +133,10 @@ body.focus-list {
     background-color: #ddd;
     height: 100%;
     padding: 0 5px;
+}
+
+#gas-type:hover, #reset-button:hover, #toggle-list-size-button:hover, #radius-input:hover{
+    background-color: #ccc;
 }
 
 

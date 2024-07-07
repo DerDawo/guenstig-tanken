@@ -59,12 +59,12 @@ class ToggleSlider extends HTMLElement {
     this.span1 = document.createElement('span');
     this.span1.className = 'slider-text';
     this.span1.dataset.text = 'Distance';
-    this.span1.textContent = 'Distanz';
+    this.span1.textContent = 'km';
 
     this.span2 = document.createElement('span');
     this.span2.className = 'slider-text';
     this.span2.dataset.text = 'Price';
-    this.span2.textContent = 'Preis';
+    this.span2.textContent = '€';
 
     label.appendChild(this.span1);
     label.appendChild(this.span2);
