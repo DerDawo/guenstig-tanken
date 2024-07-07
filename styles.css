@@ -1,4 +1,5 @@
-body{
+/*APP*/
+body {
     margin: 0;
     padding: 0;
     display: grid;
@@ -9,24 +10,27 @@ body{
     overflow: hidden;
 }
 
-body.focus-map{
+body.focus-map {
     grid-template-rows: auto 60% auto 1fr;
 }
-body.focus-list{
+
+body.focus-list {
     grid-template-rows: auto 20% auto 1fr;
 }
 
-.app-bar{
+
+/*APPBAR*/
+.app-bar {
     background-color: #243860;
     display: grid;
     grid-template-columns: 35px auto 35px;
     justify-items: stretch;
     align-content: center;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 10px;
 }
 
-#pac-input{
+#pac-input {
     background-color: transparent;
     border-radius: 5px;
     border: 2px white solid;
@@ -39,7 +43,7 @@ body.focus-list{
     outline: none;
 }
 
-#search-location-button{
+#search-location-button {
     border: 2px white solid;
     border-radius: 5px;
     cursor: pointer;
@@ -50,7 +54,7 @@ body.focus-list{
     color: #243860;
 }
 
-#current-location-button{
+#current-location-button {
     background-color: transparent;
     border: 2px white solid;
     border-radius: 5px;
@@ -63,51 +67,82 @@ body.focus-list{
     width: 100%;
 }
 
-#current-location-button:hover{
+#current-location-button:hover {
     color: white;
 }
 
-#current-location-button.location-found{
+#current-location-button.location-found {
     color: #243860;
     background-color: white;
 }
 
-.map-view{
+
+/*MAP*/
+.map-view {
     background-color: antiquewhite;
     width: 100%;
 }
 
-.gas-station-list{
+
+/*FILTER*/
+.filter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding: 5px;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+
+.filter-option {
+    font-size: 14px;
+}
+
+#gas-type {
+    border: 0px;
+    height: 100%;
+    border-radius: 25px;
+    padding: 0 10px;
+    background-color: #ddd;
+}
+
+
+#reset-button {
+    border: 0;
+    background-color: #ddd;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 25px;
+}
+
+#toggle-list-size-button {
+    margin-left: auto;
+    border: 0;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 25px;
+    background-color: #ddd;
+}
+
+#radius-input {
+    width: 60px;
+    text-align: center;
+    border: 0;
+    border-radius: 25px;
+    background-color: #ddd;
+    height: 100%;
+    padding: 0 5px;
+}
+
+
+/*LIST*/
+.gas-station-list {
     height: 100%;
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: #ccc transparent;
 }
-
-.filter{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 20px;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-}
-
-.filter > *{
-    text-align: center;
-    font-size: 1rem;
-    width: 100%;
-    border-radius: 5px;
-    border: 2px solid #ccc;
-    background-color: #ccc;
-}
-
-.filter > *:hover{
-    border: 2px solid #adadad;
-    background-color: #adadad;
-}
-
 
 .gasStationListItem {
     display: grid;
@@ -115,26 +150,26 @@ body.focus-list{
     gap: 10px;
     padding: 10px 20px;
     border-bottom: 1px solid #ccc;
-  }
+}
 
-.gasStationListItem:last-of-type{
+.gasStationListItem:last-of-type {
     border-bottom: none;
 }
-  
-  .gasStationGeneral > div {
+
+.gasStationGeneral>div {
     display: flex;
     gap: 5px;
-  }
-  .gasStationGeneral > div > * {
+}
+
+.gasStationGeneral>div>* {
     margin: 0;
-  }
-  
-  .gasStationPrice > * {
+}
+
+.gasStationPrice>* {
     margin: 0;
     text-align: end;
-  }
-  
-  .gasStationGeneral {
+}
+
+.gasStationGeneral {
     display: grid;
-  }
-  
+}
