@@ -1,5 +1,5 @@
-import {capitalize, $id, $class} from "./helper.js";
-import {showSnackbar} from "./components.js"
+import { capitalize, $id, $class, superscriptLastElement } from "./helper.js";
+import { showSnackbar } from "./components.js"
 
 // Constants
 // Initialize the map and set its view to Berlin Main Station
@@ -24,26 +24,27 @@ let lastSearchMarker = L.marker([52.5200, 13.4050], { icon: LocationIcon() })
     .bindPopup('Berlin');
 let searchMarkers = [];
 let gasStations = [];
+let sortingOption = sorting_slider.value
 
 // Functions
 // Locate the user's current position
-function locateUser() { 
-    map.locate({ setView: true, maxZoom: 13 }) 
+function locateUser() {
+    map.locate({ setView: true, maxZoom: 13 })
 }
 
 // Un-Highlight the Current Location Button
-function unhighlightCurrentLocationFound(){ 
-    current_location_button.classList.remove("location-found") 
+function unhighlightCurrentLocationFound() {
+    current_location_button.classList.remove("location-found")
 }
 
 // Highlight the Current Location Button
-function highlightCurrentLocationFound(){ 
-    current_location_button.classList.add("location-found") 
+function highlightCurrentLocationFound() {
+    current_location_button.classList.add("location-found")
 }
 
 // Search current location using Nominatim API
 function searchLocation() {
-    if ( !location_input.value ){
+    if (!location_input.value) {
         showSnackbar("Bitte geben Sie eine Adresse ein.", 5000)
         return
     }
@@ -56,7 +57,7 @@ function searchLocation() {
 
             if (!data || data.length === 0) {
                 showSnackbar("Die Adresse konnte nicht gefunden werden.", 5000)
-                return 
+                return
             }
 
             var latlng = [data[0].lat, data[0].lon];
@@ -71,7 +72,7 @@ function searchLocation() {
 
 }
 
-function locationFound(latitude_longitude, popup_adress){
+function locationFound(latitude_longitude, popup_adress) {
     map.setView(latitude_longitude, 13);
 
     // Remove the last search marker if it exists
@@ -89,29 +90,29 @@ function locationFound(latitude_longitude, popup_adress){
     searchGasStations();
 }
 
-function addGasStationMarker(station){
+function addGasStationMarker(station) {
     var marker = L.marker([station.lat, station.lng], { icon: GasStationIcon() })
         .addTo(map)
         .bindPopup(`${capitalize(gas_type_input.value)}: ${station.price}€<br>${station.name}<br>${station.postCode} ${capitalize(station.place)}<br>${capitalize(station.street)} ${station.houseNumber}`);
     searchMarkers.push(marker);
 }
 
-function emptyGasStationList(){
+function emptyGasStationList() {
     $id("results").innerHTML = ``
 }
 
-function fillGasStationList(){
+function fillGasStationList() {
     emptyGasStationList()
     gasStations.forEach(station => addGasStationListItem(station))
 }
 
-function addGasStationListItem(station){
+function addGasStationListItem(station) {
     const listItem = `
-        <div class="gasStationListItem" id="${station.id}" data-open="${station.isOpen}">
+        <div class="gasStationListItem" id="${station.id}" data-open="${station.isOpen}" data-distance="${station.dist}" data-price="${station.price}">
             <div class="gasStationGeneral">
                 <div>
-                    <p class="dist" >${station.dist} km</p>
-                    <p class="brand" >${station.brand}</p>
+                <p class="brand" >${station.brand}</p>
+                <p class="dist" >${station.dist}km</p>
                 </div>
                 <div>
                     <p class="postCode" >${station.postCode}</p>
@@ -123,7 +124,7 @@ function addGasStationListItem(station){
                 </div>
             </div>
             <div class="gasStationPrice">
-                <p class="price" >${station.price}&nbsp;€</p>
+                <p class="price" >${superscriptLastElement(station.price)}</p>
                 <p class="gasType" >${capitalize(gas_type_input.value)}</p>
             </div>
         </div>
@@ -131,27 +132,31 @@ function addGasStationListItem(station){
     $id("results").innerHTML += listItem
 }
 
-function toggleGasStationListSorting(){
- if(this.value === "Price"){
-    sortGasStationListByPrice()
- }
- if(this.value === "Distance"){
-    sortGasStationListByDistance()
- }
+function sortGasStationList(){
+    if (sortingOption === "Price") {
+        sortGasStationListByPrice()
+    }
+    if (sortingOption === "Distance") {
+        sortGasStationListByDistance()
+    }
 }
 
-function sortGasStationListByPrice(){
-    gasStations.sort(function(a,b){
-        return a.price >= b.price
-    })
+function toggleGasStationListSorting(event) {  
+    sortingOption = event.target.value;
+    sortGasStationList()
     fillGasStationList()
 }
 
-function sortGasStationListByDistance(){
-    gasStations.sort(function(a,b){
-        return a.dist >= b.dist
+function sortGasStationListByPrice() {
+    gasStations.sort(function (a, b) {
+        return a.price - b.price
     })
-    fillGasStationList()
+}
+
+function sortGasStationListByDistance() {
+    gasStations.sort(function (a, b) {
+        return a.dist - b.dist
+    })
 }
 
 // Search the gas stations
@@ -159,7 +164,7 @@ function searchGasStations() {
 
     const radius = radius_input.value || 25;
 
-    if ( !lastSearchMarker || !radius || !gas_type_input.value ){
+    if (!lastSearchMarker || !radius || !gas_type_input.value) {
         showSnackbar("Bitte geben Sie eine Adresse, einen Treibstoff und den Suchradius ein.", 5000)
         return
     }
@@ -169,7 +174,7 @@ function searchGasStations() {
     fetch(`https://creativecommons.tankerkoenig.de/json/list.php?lat=${latlng.lat}&lng=${latlng.lng}&rad=${radius}&sort=dist&type=${gas_type_input.value}&apikey=6364803c-c10f-2f91-6b61-b4bda5cdfe4c`)
         .then(response => response.json())
         .then(data => {
-            
+
             // Remove existing gas station markers
             searchMarkers.forEach(marker => map.removeLayer(marker));
             searchMarkers = [];
@@ -181,10 +186,11 @@ function searchGasStations() {
 
             gasStations = data.stations
 
-            data.stations.forEach(station => { 
+            data.stations.forEach(station => {
                 addGasStationMarker(station)
             });
 
+            sortGasStationList()
             fillGasStationList()
 
             showSnackbar(`Es wurden ${data.stations.length} Tankstelle(n) gefunden.`, 5000)
@@ -201,11 +207,11 @@ function LocationIcon() {
     return L.icon({
         iconUrl: './location.png',
         shadowUrl: './shadowLocation.png',
-        iconSize:     [32, 32],
-        shadowSize:   [32, 32],
-        iconAnchor:   [16, 16],
+        iconSize: [32, 32],
+        shadowSize: [32, 32],
+        iconAnchor: [16, 16],
         shadowAnchor: [16, 16],
-        popupAnchor:  [0, -16]
+        popupAnchor: [0, -16]
     });
 }
 
@@ -214,11 +220,11 @@ function GasStationIcon() {
     return L.icon({
         iconUrl: './marker.png',
         shadowUrl: './shadow.png',
-        iconSize:     [32, 32],
-        shadowSize:   [32, 32],
-        iconAnchor:   [0, 32],
+        iconSize: [32, 32],
+        shadowSize: [32, 32],
+        iconAnchor: [0, 32],
         shadowAnchor: [4, 32],
-        popupAnchor:  [16, -32]
+        popupAnchor: [16, -32]
     });
 }
 
@@ -229,43 +235,44 @@ function resetFilters() {
     searchGasStation()
 }
 
-function toggleListFocus(){
-    if(this.checked){
+
+function toggleListFocus() {
+    if (this.checked) {
         maximizeList()
     }
-    if(!this.checked){
+    if (!this.checked) {
         minimizeList()
     }
 }
 
-function toggleMapFocus(){
-    if(this.checked){
+function toggleMapFocus() {
+    if (this.checked) {
         maximizeMap()
     }
-    if(!this.checked){
+    if (!this.checked) {
         minimizeMap()
     }
 }
 
-function maximizeList(){
-    if(document.body.classList.contains('focus-map')){
+function maximizeList() {
+    if (document.body.classList.contains('focus-map')) {
         minimizeMap()
     }
     document.body.classList.add("focus-list")
 }
 
-function minimizeList(){
+function minimizeList() {
     document.body.classList.remove("focus-list")
 }
 
-function maximizeMap(){
-    if(document.body.classList.contains('focus-list')){
+function maximizeMap() {
+    if (document.body.classList.contains('focus-list')) {
         minimizeList()
     }
     document.body.classList.add("focus-map")
 }
 
-function minimizeMap(){
+function minimizeMap() {
     document.body.classList.remove("focus-map")
 }
 
@@ -290,14 +297,14 @@ map.on('locationfound', function (e) {
             locationFound(latlng, data.display_name)
         })
         .catch(error => {
-            showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.',5000)
+            showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.', 5000)
             console.error(error);
         });
 });
 
 // Error in locating the user's position
 map.on('locationerror', function (e) {
-    showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.',5000)
+    showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.', 5000)
     console.error(e.message);
 });
 
@@ -308,8 +315,8 @@ gas_type_input.addEventListener('change', searchGasStations);
 radius_input.addEventListener('input', searchGasStations);
 reset_filters_button.addEventListener('click', resetFilters);
 sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
-toggle_map_focus_button.addEventListener('change',toggleMapFocus)
-toggle_list_focus_button.addEventListener('change',toggleListFocus)
+toggle_map_focus_button.addEventListener('change', toggleMapFocus)
+toggle_list_focus_button.addEventListener('change', toggleListFocus)
 
 // Init App
 // Add a tile layer to the map (this one is free from OpenStreetMap)

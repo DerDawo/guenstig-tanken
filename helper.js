@@ -18,6 +18,10 @@ export function capitalize(s) {
             .join('-');
 }
 
+export function superscriptLastElement(s){
+    s = String(s)
+    return `${s.slice(0, -1)}<span class="milli_cent">${s.slice(-1)}</span>`;
+}
 
 export function $id(id){
     return document.getElementById(id);
