@@ -97,6 +97,12 @@ function addGasStationMarker(station) {
     searchMarkers.push(marker);
 }
 
+function addAllGasStationMarkers(){
+    gasStations.forEach(station => {
+        addGasStationMarker(station)
+    });
+}
+
 function emptyGasStationList() {
     $id("results").innerHTML = ``
 }
@@ -149,12 +155,18 @@ function toggleGasStationListSorting(event) {
 
 function sortGasStationListByPrice() {
     gasStations.sort(function (a, b) {
+        if (a.isOpen !== b.isOpen) {
+            return a.isOpen ? -1 : 1; // isOpen: true comes before isOpen: false
+        }
         return a.price - b.price
     })
 }
 
 function sortGasStationListByDistance() {
     gasStations.sort(function (a, b) {
+        if (a.isOpen !== b.isOpen) {
+            return a.isOpen ? -1 : 1; // isOpen: true comes before isOpen: false
+        }
         return a.dist - b.dist
     })
 }
@@ -185,11 +197,9 @@ function searchGasStations() {
             }
 
             gasStations = data.stations
+            console.log(gasStations)
 
-            data.stations.forEach(station => {
-                addGasStationMarker(station)
-            });
-
+            addAllGasStationMarkers()
             sortGasStationList()
             fillGasStationList()
 
