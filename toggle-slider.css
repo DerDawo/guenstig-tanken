@@ -34,7 +34,7 @@
     position: absolute;
     width: 50%;
     height: calc(100% - 10px);
-    width: calc(50% - 5px);
+    width: calc(50% - 10px);
     background-color: #243680;
     border-radius: 25px;
     transition: transform 0.3s;
@@ -42,7 +42,7 @@
 }
 
 .slider-checkbox:checked + .slider-label:before {
-    transform: translateX(calc(100% + 0px));
+    transform: translateX(calc(100% + 10px));
 }
 
 .slider-text {
