@@ -143,6 +143,10 @@ body.focus-list {
     border-radius: 25px;
     padding: 0 10px;
     background-color: #ddd;
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    text-align: center;
 }
 
 #reset-button {

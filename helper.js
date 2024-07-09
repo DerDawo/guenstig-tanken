@@ -15,7 +15,10 @@ export function debounce(func, wait) {
 export function capitalize(s) {
     return s.split('-')
             .map(part => part[0].toUpperCase() + part.slice(1))
-            .join('-');
+            .join('-')
+            .split(' ')
+            .map(part => part[0].toUpperCase() + part.slice(1))
+            .join(' ');
 }
 
 export function superscriptLastElement(s){
