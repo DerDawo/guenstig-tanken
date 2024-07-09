@@ -1,4 +1,4 @@
-import { capitalize, $id, $class, superscriptLastElement } from "./helper.js";
+import { capitalize, $id, $class, superscriptLastElement, debounce } from "./helper.js";
 import { showSnackbar } from "./components.js"
 
 // Constants
@@ -9,6 +9,7 @@ const map = L.map('map').setView([52.5200, 13.4050], 13);
 const current_location_button = $id("current-location-button");
 const search_location_button = $id("search-location-button");
 const location_input = $id('pac-input');
+const location_suggestions_div = $id('location-suggestions');
 const gas_type_input = $id('gas-type');
 const radius_input = $id('radius-input');
 const reset_filters_button = $id('reset-button');
@@ -42,6 +43,74 @@ function highlightCurrentLocationFound() {
     current_location_button.classList.add("location-found")
 }
 
+function showLocationSuggestionsContainer() {
+    statusMessageLocalSuggestionsContainer('Bitte geben Sie eine Adresse zum Suchen ein.')
+    location_suggestions_div.style.display = "block";
+}
+
+function hideLocationSuggestionsContainer() {
+    location_suggestions_div.style.display = "none";
+}
+
+function createSuggestionItem(content){
+    const suggestionItem = document.createElement('div');
+    suggestionItem.textContent = content;
+    suggestionItem.className = 'suggestion-item';
+    return suggestionItem
+}
+
+function addLocationSuggestionsItem(place) {
+    const suggestionItem = createSuggestionItem(place.display_name);
+
+    suggestionItem.addEventListener('click', () => {
+        location_input.value = place.display_name;
+        location_suggestions_div.innerHTML = '';
+        hideLocationSuggestionsContainer()
+    });
+
+    location_suggestions_div.appendChild(suggestionItem);
+}
+
+function fillLocationSuggestionsContainer(places) {
+    places.forEach(place => addLocationSuggestionsItem(place));
+}
+
+function emptyLocationSuggestionsContainer() {
+    location_suggestions_div.innerHTML = '';
+}
+
+function statusMessageLocalSuggestionsContainer(message) {
+    emptyLocationSuggestionsContainer()
+
+    const suggestionItem = createSuggestionItem(message)
+
+    location_suggestions_div.appendChild(suggestionItem);
+}
+
+function getLocationSuggestions() {
+    const query = location_input.value;
+
+    if (!query) {
+        return;
+    }
+
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5`)
+        .then(response => response.json())
+        .then(data => {
+            emptyLocationSuggestionsContainer()
+
+            if (data.length === 0) {
+                statusMessageLocalSuggestionsContainer('Es wurden keine Ergebnisse gefunden.')
+                return;
+            }
+
+            fillLocationSuggestionsContainer(data)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
 // Search current location using Nominatim API
 function searchLocation() {
     if (!location_input.value) {
@@ -73,7 +142,7 @@ function searchLocation() {
 }
 
 function locationFound(latitude_longitude, popup_adress) {
-    map.setView(latitude_longitude, 13);
+    map.panTo(latitude_longitude, radius_input.value);
 
     // Remove the last search marker if it exists
     if (lastSearchMarker) {
@@ -97,7 +166,7 @@ function addGasStationMarker(station) {
     searchMarkers.push(marker);
 }
 
-function addAllGasStationMarkers(){
+function addAllGasStationMarkers() {
     gasStations.forEach(station => {
         addGasStationMarker(station)
     });
@@ -138,7 +207,7 @@ function addGasStationListItem(station) {
     $id("results").innerHTML += listItem
 }
 
-function sortGasStationList(){
+function sortGasStationList() {
     if (sortingOption === "Price") {
         sortGasStationListByPrice()
     }
@@ -147,7 +216,7 @@ function sortGasStationList(){
     }
 }
 
-function toggleGasStationListSorting(event) {  
+function toggleGasStationListSorting(event) {
     sortingOption = event.target.value;
     sortGasStationList()
     fillGasStationList()
@@ -327,6 +396,8 @@ reset_filters_button.addEventListener('click', resetFilters);
 sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
 toggle_map_focus_button.addEventListener('change', toggleMapFocus)
 toggle_list_focus_button.addEventListener('change', toggleListFocus)
+location_input.addEventListener('click',showLocationSuggestionsContainer)
+location_input.addEventListener('input',getLocationSuggestions)
 
 // Init App
 // Add a tile layer to the map (this one is free from OpenStreetMap)

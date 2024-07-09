@@ -1,0 +1,30 @@
+.location-suggestions {
+    position: absolute;
+    top: 50px;
+    left: 55px;
+    width: calc(100% - 57px - 56px);
+    min-height: 35px;
+    display: none;
+    max-height: 50dvh;
+    background-color: white;
+    z-index: 9999;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #ccc transparent;
+}
+
+.suggestion-item{
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.suggestion-item:hover{
+    background-color: #f4f4f4;
+}
+
+.suggestion-item:last-of-type{
+    border-bottom: none;
+}
