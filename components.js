@@ -1,19 +1,19 @@
-export function showSnackbar(message, timeout) {
+export function showSnackbar(message) {
   // Get the snackbar div
   const snackbar = document.getElementById('snackbar');
   // Set the message
   snackbar.innerHTML = message;
-    // Ensure previous animations are cleared and snackbar is hidden
-    snackbar.classList.remove('show');
+  // Ensure previous animations are cleared and snackbar is hidden
+  snackbar.classList.remove('show');
 
-    // Trigger reflow to restart animation (if any)
-    snackbar.offsetWidth; // Reflow
+  // Trigger reflow to restart animation (if any)
+  snackbar.offsetWidth; // Reflow
   // Show the snackbar
   snackbar.className = 'show';
 
   setTimeout(function () {
     snackbar.className = snackbar.className.replace('show', '');
-  }, timeout);
+  }, 2750);
 }
 
 class ToggleSlider extends HTMLElement {

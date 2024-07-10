@@ -128,7 +128,7 @@ function getLocationSuggestions() {
 // Search current location using Nominatim API
 function searchLocation() {
     if (!location_input.value) {
-        showSnackbar("Bitte geben Sie eine Adresse ein.", 5000)
+        showSnackbar("Bitte geben Sie eine Adresse ein.")
         return
     }
 
@@ -139,7 +139,7 @@ function searchLocation() {
         .then(data => {
 
             if (!data || data.length === 0) {
-                showSnackbar("Die Adresse konnte nicht gefunden werden.", 5000)
+                showSnackbar("Die Adresse konnte nicht gefunden werden.")
                 return
             }
 
@@ -149,7 +149,7 @@ function searchLocation() {
             locationFound(latlng, popup_adress)
         })
         .catch(error => {
-            showSnackbar("Es trat ein Fehler beim Suchen der Adresse auf.", 5000)
+            showSnackbar("Es trat ein Fehler beim Suchen der Adresse auf.")
             console.error('Error:', error);
         });
 
@@ -258,7 +258,7 @@ function searchGasStations() {
     const radius = radius_input.value;
 
     if (!lastSearchMarker || !radius || !gas_type_input.value) {
-        showSnackbar("Bitte geben Sie eine Adresse, einen Treibstoff und den Suchradius ein.", 5000)
+        showSnackbar("Bitte geben Sie eine Adresse, einen Treibstoff und den Suchradius ein.")
         return
     }
 
@@ -273,7 +273,7 @@ function searchGasStations() {
             searchMarkers = [];
 
             if (!data || data.length === 0) {
-                showSnackbar("Keine Tankstelle(n) gefunden.", 5000)
+                showSnackbar("Keine Tankstelle(n) gefunden.")
                 return
             }
 
@@ -284,12 +284,12 @@ function searchGasStations() {
             sortGasStationList()
             fillGasStationList()
 
-            showSnackbar(`Es wurden ${data.stations.length} Tankstelle(n) gefunden.`, 5000)
+            showSnackbar(`Es wurden ${data.stations.length} Tankstelle(n) gefunden.`)
 
         })
         .catch(error => {
             console.error('Error:', error);
-            showSnackbar("Es trat ein Fehler beim Suchen von Tankstellen auf.", 5000)
+            showSnackbar("Es trat ein Fehler beim Suchen von Tankstellen auf.")
         });
 }
 
@@ -379,14 +379,14 @@ map.on('locationfound', function (e) {
             locationFound(latlng, data.display_name)
         })
         .catch(error => {
-            showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.', 5000)
+            showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
             console.error(error);
         });
 });
 
 // Error in locating the user's position
 map.on('locationerror', function (e) {
-    showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.', 5000)
+    showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
     console.error(e.message);
 });
 
