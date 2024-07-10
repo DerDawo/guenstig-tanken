@@ -212,7 +212,7 @@ function addGasStationListItem(station) {
             </div>
             <div class="gasStationPrice">
                 <p class="price" >${superscriptLastElement(station.price)}</p>
-                <p class="gasType" >${capitalize(gas_type_input.value)}</p>
+                <p class="gasType" ></p>
             </div>
         </div>
     `
@@ -278,7 +278,6 @@ function searchGasStations() {
             }
 
             gasStations = data.stations
-            console.log(gasStations)
 
             addAllGasStationMarkers()
             sortGasStationList()
