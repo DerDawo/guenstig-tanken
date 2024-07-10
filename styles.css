@@ -169,6 +169,7 @@ body.focus-list {
     padding: 0 10px;
     background-color: #ddd;
     -moz-appearance: none;
+    -webkit-appearance: none;
     text-indent: 0.01px;
     text-overflow: '';
     text-align: center;
@@ -215,6 +216,11 @@ body.focus-list {
     background-color: #ddd;
     height: 100%;
     padding: 0 5px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    text-align: center;
 }
 
 #gas-type:hover,

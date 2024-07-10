@@ -253,7 +253,7 @@ function sortGasStationListByDistance() {
 // Search the gas stations
 function searchGasStations() {
 
-    const radius = radius_input.value || 25;
+    const radius = radius_input.value;
 
     if (!lastSearchMarker || !radius || !gas_type_input.value) {
         showSnackbar("Bitte geben Sie eine Adresse, einen Treibstoff und den Suchradius ein.", 5000)
