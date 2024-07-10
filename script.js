@@ -27,7 +27,7 @@ let sortingOption = sorting_slider.value
 
 // Functions
 
-function deleteAndCloseLocationInput(){
+function deleteAndCloseLocationInput() {
     location_input.value = ''
     hideLocationSuggestionsContainer()
 }
@@ -39,11 +39,11 @@ function locateUser() {
     map.locate({ setView: true, maxZoom: 13 })
 }
 
-function addLoadingStatusCurrentLocationButton(){
+function addLoadingStatusCurrentLocationButton() {
     current_location_button.classList.add("loading")
 }
 
-function removeLoadingStatusCurrentLocationButton(){
+function removeLoadingStatusCurrentLocationButton() {
     current_location_button.classList.remove("loading")
 }
 
@@ -66,7 +66,7 @@ function hideLocationSuggestionsContainer() {
     location_suggestions_div.style.display = "none";
 }
 
-function createSuggestionItem(content){
+function createSuggestionItem(content) {
     const suggestionItem = document.createElement('div');
     suggestionItem.textContent = content;
     suggestionItem.className = 'suggestion-item';
@@ -175,7 +175,12 @@ function addGasStationMarker(station) {
     var marker = L.marker([station.lat, station.lng], { icon: GasStationIcon() })
         .addTo(map)
         .bindPopup(`${capitalize(gas_type_input.value)}: ${station.price} €<br>${station.brand}<br>${station.postCode} ${capitalize(station.place)}<br>${capitalize(station.street)} ${station.houseNumber}`);
-    searchMarkers.push(marker);
+    searchMarkers.push(
+        {
+            marker: marker,
+            id: station.id
+        }
+    )
 }
 
 function addAllGasStationMarkers() {
@@ -216,7 +221,14 @@ function addGasStationListItem(station) {
             </div>
         </div>
     `
-    $id("results").innerHTML += listItem
+    $id("results").insertAdjacentHTML('beforeend', listItem);
+
+    $id(station.id).addEventListener('click', () => {
+        const result = searchMarkers.filter(marker => {
+            return marker.id === station.id
+        })
+        result[0].marker.fire('click');
+    })
 }
 
 function sortGasStationList() {
@@ -269,7 +281,7 @@ function searchGasStations() {
         .then(data => {
 
             // Remove existing gas station markers
-            searchMarkers.forEach(marker => map.removeLayer(marker));
+            searchMarkers.forEach(marker => map.removeLayer(marker.marker));
             searchMarkers = [];
 
             if (!data || data.length === 0) {
@@ -399,13 +411,13 @@ radius_input.addEventListener('input', searchGasStations);
 sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
 toggle_map_focus_button.addEventListener('change', toggleMapFocus)
 toggle_list_focus_button.addEventListener('change', toggleListFocus)
-location_input.addEventListener('click',showLocationSuggestionsContainer)
-location_input.addEventListener('input',getLocationSuggestions)
-location_input.addEventListener('keydown',(evt)=>{
+location_input.addEventListener('click', showLocationSuggestionsContainer)
+location_input.addEventListener('input', getLocationSuggestions)
+location_input.addEventListener('keydown', (evt) => {
     evt = evt || window.event;
     if (evt.keyCode == 27) { hideLocationSuggestionsContainer() }
 })
-delete_location_input.addEventListener('click',deleteAndCloseLocationInput)
+delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
 
 // Init App
 // Add a tile layer to the map (this one is free from OpenStreetMap)
