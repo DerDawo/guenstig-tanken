@@ -30,7 +30,17 @@ let sortingOption = sorting_slider.value
 // Functions
 // Locate the user's current position
 function locateUser() {
+    unhighlightCurrentLocationFound()
+    addLoadingStatusCurrentLocationButton()
     map.locate({ setView: true, maxZoom: 13 })
+}
+
+function addLoadingStatusCurrentLocationButton(){
+    current_location_button.classList.add("loading")
+}
+
+function removeLoadingStatusCurrentLocationButton(){
+    current_location_button.classList.remove("loading")
 }
 
 // Un-Highlight the Current Location Button
@@ -360,8 +370,8 @@ function minimizeMap() {
 // Events
 // Success when the user's position found
 map.on('locationfound', function (e) {
-    var radius = e.accuracy / 2;
 
+    removeLoadingStatusCurrentLocationButton()
     highlightCurrentLocationFound()
 
     // Reverse geocoding to get the address
@@ -371,7 +381,6 @@ map.on('locationfound', function (e) {
             location_input.value = data.display_name
 
             var latlng = e.latlng
-            var popup_adress = data.display_name
 
             locationFound(latlng, data.display_name)
         })

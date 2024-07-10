@@ -69,15 +69,40 @@ body.focus-list {
     font-size: 1rem;
     height: 100%;
     width: 100%;
+    color: white;
 }
 
 #current-location-button:hover {
-    color: white;
+    background-color: #e4e4e4;
+    color: #243860;
+}
+
+#current-location-button.loading {
+    pointer-events: none;
+    background-color: #ccc;
+    color: #545454;
+    border-color: #545454;
+}
+
+#current-location-button.loading > .fa-location-crosshairs{
+    display: none;
+}
+
+#current-location-button > .fa-spinner{
+    display:  none;
+}
+
+#current-location-button.loading > .fa-spinner{
+    display:  block;
 }
 
 #current-location-button.location-found {
     color: #243860;
-    background-color: white;
+    background-color: #e4e4e4;
+}
+
+#current-location-button.location-found:hover {
+    background-color: #ccc;
 }
 
 
