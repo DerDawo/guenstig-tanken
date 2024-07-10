@@ -15,18 +15,23 @@ const radius_input = $id('radius-input');
 const sorting_slider = $id('sorting');
 const toggle_map_focus_button = $id('toggle-map-focus')
 const toggle_list_focus_button = $id('toggle-list-focus')
-
+const delete_location_input = $id('delete-location-input');
 
 // Variables
 // Add a marker at the Berlin Main Station
 let lastSearchMarker = L.marker([52.5200, 13.4050], { icon: LocationIcon() })
     .addTo(map)
-    .bindPopup('Berlin');
 let searchMarkers = [];
 let gasStations = [];
 let sortingOption = sorting_slider.value
 
 // Functions
+
+function deleteAndCloseLocationInput(){
+    location_input.value = ''
+    hideLocationSuggestionsContainer()
+}
+
 // Locate the user's current position
 function locateUser() {
     unhighlightCurrentLocationFound()
@@ -103,7 +108,7 @@ function getLocationSuggestions() {
         return;
     }
 
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5`)
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5&countrycodes=de`)
         .then(response => response.json())
         .then(data => {
             emptyLocationSuggestionsContainer()
@@ -161,8 +166,6 @@ function locationFound(latitude_longitude, popup_adress) {
     // Add a new marker for the searched location
     lastSearchMarker = L.marker(latitude_longitude, { icon: LocationIcon() })
         .addTo(map)
-        .bindPopup(popup_adress)
-        .openPopup();
 
     // Search Gas Station
     searchGasStations();
@@ -171,7 +174,7 @@ function locationFound(latitude_longitude, popup_adress) {
 function addGasStationMarker(station) {
     var marker = L.marker([station.lat, station.lng], { icon: GasStationIcon() })
         .addTo(map)
-        .bindPopup(`${capitalize(gas_type_input.value)}: ${station.price}€<br>${station.name}<br>${station.postCode} ${capitalize(station.place)}<br>${capitalize(station.street)} ${station.houseNumber}`);
+        .bindPopup(`${capitalize(gas_type_input.value)}: ${station.price} €<br>${station.brand}<br>${station.postCode} ${capitalize(station.place)}<br>${capitalize(station.street)} ${station.houseNumber}`);
     searchMarkers.push(marker);
 }
 
@@ -358,7 +361,6 @@ function minimizeMap() {
 }
 
 
-
 // Events
 // Success when the user's position found
 map.on('locationfound', function (e) {
@@ -388,6 +390,8 @@ map.on('locationerror', function (e) {
     console.error(e.message);
 });
 
+// 
+
 // EventListeners
 search_location_button.addEventListener('click', searchLocation);
 current_location_button.addEventListener('click', locateUser);
@@ -398,6 +402,11 @@ toggle_map_focus_button.addEventListener('change', toggleMapFocus)
 toggle_list_focus_button.addEventListener('change', toggleListFocus)
 location_input.addEventListener('click',showLocationSuggestionsContainer)
 location_input.addEventListener('input',getLocationSuggestions)
+location_input.addEventListener('keydown',(evt)=>{
+    evt = evt || window.event;
+    if (evt.keyCode == 27) { hideLocationSuggestionsContainer() }
+})
+delete_location_input.addEventListener('click',deleteAndCloseLocationInput)
 
 // Init App
 // Add a tile layer to the map (this one is free from OpenStreetMap)

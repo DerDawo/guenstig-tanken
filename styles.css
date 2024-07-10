@@ -34,10 +34,17 @@ body.focus-list {
     padding: 10px;
 }
 
+#location-input{
+    border: 2px solid white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+}
+
 #pac-input {
     background-color: transparent;
     border-radius: 5px;
-    border: 2px white solid;
     cursor: pointer;
     transition: 0.2s;
     color: white;
@@ -45,6 +52,26 @@ body.focus-list {
     font-size: 14px;
     height: auto;
     outline: none;
+    background-color: transparent;
+    border: 0;
+    padding: 5px;
+    width: 100%;
+}
+
+#delete-location-input{
+    border: 0;
+    background-color: transparent;
+    color: white;
+    border-left: 2px solid white;
+    padding: 5px;
+    aspect-ratio: 1 / 1;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#delete-location-input:hover{
+    color: #243860;
+    background-color: #e4e4e4;
 }
 
 #search-location-button {
