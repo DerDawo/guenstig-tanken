@@ -12,7 +12,6 @@ const location_input = $id('pac-input');
 const location_suggestions_div = $id('location-suggestions');
 const gas_type_input = $id('gas-type');
 const radius_input = $id('radius-input');
-const reset_filters_button = $id('reset-button');
 const sorting_slider = $id('sorting');
 const toggle_map_focus_button = $id('toggle-map-focus')
 const toggle_list_focus_button = $id('toggle-list-focus')
@@ -317,13 +316,6 @@ function GasStationIcon() {
     });
 }
 
-// Reset filters to default values
-function resetFilters() {
-    gas_type_input.value = 'diesel';
-    radius_input.value = 25;
-    searchGasStation()
-}
-
 
 function toggleListFocus() {
     if (this.checked) {
@@ -401,7 +393,6 @@ search_location_button.addEventListener('click', searchLocation);
 current_location_button.addEventListener('click', locateUser);
 gas_type_input.addEventListener('change', searchGasStations);
 radius_input.addEventListener('input', searchGasStations);
-reset_filters_button.addEventListener('click', resetFilters);
 sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
 toggle_map_focus_button.addEventListener('change', toggleMapFocus)
 toggle_list_focus_button.addEventListener('change', toggleListFocus)
