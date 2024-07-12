@@ -148,7 +148,7 @@ function searchLocation() {
             var latlng = [data[0].lat, data[0].lon];
             var popup_adress = data[0].display_name;
 
-            locationFound(latlng, popup_adress)
+            locationFound(latlng, popup_adress, LocationIcon)
         })
         .catch(error => {
             showSnackbar("Es trat ein Fehler beim Suchen der Adresse auf.")
@@ -157,7 +157,7 @@ function searchLocation() {
 
 }
 
-function locationFound(latitude_longitude, popup_adress) {
+function locationFound(latitude_longitude, popup_adress, icon) {
     map.panTo(latitude_longitude, radius_input.value);
 
     // Remove the last search marker if it exists
@@ -166,7 +166,7 @@ function locationFound(latitude_longitude, popup_adress) {
     }
 
     // Add a new marker for the searched location
-    lastSearchMarker = L.marker(latitude_longitude, { icon: LocationIcon() })
+    lastSearchMarker = L.marker(latitude_longitude, { icon: icon() })
         .addTo(map)
 
     // Search Gas Station
@@ -307,9 +307,21 @@ function searchGasStations() {
 }
 
 // Location icon
-function LocationIcon() {
+function UserLocationIcon() {
     return L.icon({
         iconUrl: './location.png',
+        shadowUrl: './shadowLocation.png',
+        iconSize: [32, 32],
+        shadowSize: [32, 32],
+        iconAnchor: [16, 16],
+        shadowAnchor: [16, 16],
+        popupAnchor: [0, -16]
+    });
+}
+
+function LocationIcon() {
+    return L.icon({
+        iconUrl: './marker.png',
         shadowUrl: './shadowLocation.png',
         iconSize: [32, 32],
         shadowSize: [32, 32],
@@ -322,7 +334,7 @@ function LocationIcon() {
 // Gast Station Icon
 function GasStationIcon() {
     return L.icon({
-        iconUrl: './marker.png',
+        iconUrl: './gas_marker.png',
         shadowUrl: './shadow.png',
         iconSize: [32, 32],
         shadowSize: [32, 32],
@@ -388,7 +400,7 @@ map.on('locationfound', function (e) {
 
             var latlng = e.latlng
 
-            locationFound(latlng, data.display_name)
+            locationFound(latlng, data.display_name, UserLocationIcon)
         })
         .catch(error => {
             showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
