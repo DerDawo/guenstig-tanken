@@ -3,7 +3,9 @@ import { showSnackbar } from "./components.js"
 
 // Constants
 // Initialize the map and set its view to Berlin Main Station
-const map = L.map('map').setView([52.5200, 13.4050], 13);
+const latlngBerlin = [52.5200, 13.4050]
+const map = L.map('map').setView(latlngBerlin, 13);
+
 
 // DOM-Elements
 const current_location_button = $id("current-location-button");
@@ -17,16 +19,16 @@ const toggle_map_focus_button = $id('toggle-map-focus')
 const toggle_list_focus_button = $id('toggle-list-focus')
 const delete_location_input = $id('delete-location-input');
 
+
 // Variables
 // Add a marker at the Berlin Main Station
-let lastSearchMarker = L.marker([52.5200, 13.4050], { icon: LocationIcon() })
-    .addTo(map)
+let lastSearchMarker;
 let searchMarkers = [];
 let gasStations = [];
 let sortingOption = sorting_slider.value
 
-// Functions
 
+// Functions
 function deleteAndCloseLocationInput() {
     location_input.value = ''
     hideLocationSuggestionsContainer()
@@ -330,7 +332,6 @@ function GasStationIcon() {
     });
 }
 
-
 function toggleListFocus() {
     if (this.checked) {
         maximizeList()
@@ -401,7 +402,6 @@ map.on('locationerror', function (e) {
     console.error(e.message);
 });
 
-// 
 
 // EventListeners
 search_location_button.addEventListener('click', searchLocation);
@@ -419,6 +419,7 @@ location_input.addEventListener('keydown', (evt) => {
 })
 delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
 
+
 // Init App
 // Add a tile layer to the map (this one is free from OpenStreetMap)
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -426,3 +427,10 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: ''
 }).addTo(map);
 
+try {
+    locateUser()
+} catch (error){
+    console.log(error)
+    lastSearchMarker = L.marker(latlngBerlin, { icon: LocationIcon() })
+    .addTo(map)
+}
