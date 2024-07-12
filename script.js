@@ -431,6 +431,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 try {
     locateUser()
 } catch (error){
+    removeLoadingStatusCurrentLocationButton()
     console.log(error)
     lastSearchMarker = L.marker(latlngBerlin, { icon: LocationIcon() })
     .addTo(map)
