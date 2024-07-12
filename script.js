@@ -398,6 +398,7 @@ map.on('locationfound', function (e) {
 
 // Error in locating the user's position
 map.on('locationerror', function (e) {
+    removeLoadingStatusCurrentLocationButton()
     showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
     console.error(e.message);
 });
