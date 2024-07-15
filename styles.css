@@ -1,13 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.cdnfonts.com/css/seven-segment');
 
+:root{
+    --app-bar-height: 56px;
+    --primary-color: #243860;
+    --light-grey: #f4f4f4;
+    --mid-grey: #e4e4e4;
+    --standard-grey: #cccccc;
+    --white: #ffffff;
+    --dark-grey: #545454;
+    --black: #000000;
+    --standard-padding: 5px;
+    --small-padding: calc(var(--small-padding) / 2);
+    --big-padding: calc(2 * var(--standard-padding));
+    --very-big-padding: calc(2 * var(--big-padding));
+    --standard-gap: 10px;
+    --small-gap: calc(var(--standard-gap) / 2);
+    --standard-radius: 5px;
+    --rounded: calc(1000 * var(--standard-radius));
+}
+
 /*APP*/
 body {
     font-family: "Roboto Condensed", sans-serif;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-rows: 56px auto auto;
+    grid-template-rows: var(--app-bar-height) auto auto;
     grid-template-columns: 100%;
     height: 100dvh;
     max-height: 100dvh;
@@ -16,12 +35,12 @@ body {
 
 /*APPBAR*/
 .app-bar {
-    background-color: #243860;
+    background-color: var(--primary-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
-    padding: 10px;
+    gap: var(--standard-gap);
+    padding: var(--big-padding);
 }
 
 .app-logo-name {
@@ -29,7 +48,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: var(--standard-gap);
 }
 
 .app-logo {
@@ -38,7 +57,7 @@ body {
 }
 
 .app-name {
-    color: white;
+    color: var(--white);
     margin: 0;
     font-size: 1.6rem;
 }
@@ -60,37 +79,37 @@ body {
 }
 
 .list-slider-knob {
-    background-color: white;
-    border-bottom: 1px solid #ccc;
+    background-color: var(--white);
+    border-bottom: 1px solid var(--standard-grey);
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--standard-grey);
 }
 
 .list-slider-knob-bar {
     width: 50%;
     height: 4px;
-    background-color: #ccc;
-    border-radius: 8px;
+    background-color: var(--standard-grey);
+    border-radius: var(--rounded);
 }
 
 .list-slider-search {
-    background-color: white;
+    background-color: var(--white);
     display: grid;
     grid-template-columns: 35px auto 35px;
-    gap: 10px;
-    padding: 5px;
+    gap: var(--standard-gap);
+    padding: var(--standard-padding);
 }
 
 #location-input {
-    border: 2px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid var(--standard-grey);
+    border-radius: var(--standard-radius);
     display: flex;
     flex-direction: row;
     gap: 0;
     cursor: pointer;
-    color: #243860;
+    color: var(--primary-color);
     font-size: 14px;
 }
 
@@ -100,43 +119,43 @@ body {
     outline: none;
     background-color: transparent;
     border: 0;
-    padding: 5px;
+    padding: var(--standard-padding);
     width: 100%;
 }
 
 #delete-location-input {
     border: 0;
     background-color: transparent;
-    border-left: 2px solid #ccc;
-    padding: 5px;
+    border-left: 2px solid var(--standard-grey);
+    padding: var(--standard-padding);
     aspect-ratio: 1 / 1;
     cursor: pointer;
     transition: 0.2s;
 }
 
 #delete-location-input:hover {
-    background-color: #f4f4f4;
+    background-color: var(--light-grey);
 }
 
 .location-button {
-    border: 2px solid #ccc;
-    border-radius: 5px;
+    border: 2px solid var(--standard-grey);
+    border-radius: var(--standard-radius);
     cursor: pointer;
     transition: 0.2s;
     font-size: 1rem;
     height: 100%;
     width: 100%;
-    color: #243860;
-    background-color: #e4e4e4;
+    color: var(--primary-color);
+    background-color: var(--mid-grey);
     aspect-ratio: 1 / 1;
 }
 
 .location-button:hover {
-    background-color: #ccc;
+    background-color: var(--standard-grey);
 }
 
 #current-location-button {
-    color: #243860;
+    color: var(--primary-color);
 }
 
 #current-location-button>.fa-spinner {
@@ -145,9 +164,9 @@ body {
 
 #current-location-button.loading {
     pointer-events: none;
-    background-color: #ccc;
-    color: #545454;
-    border-color: #545454;
+    background-color: var(--standard-grey);
+    color: var(--dark-grey);
+    border-color: var(--dark-grey);
 }
 
 #current-location-button.loading>.fa-location-crosshairs {
@@ -159,15 +178,15 @@ body {
 }
 
 #current-location-button.location-found {
-    border-color: #243860;
-    background-color: #243860;
-    color: white;
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: var(--white);
 }
 
 #current-location-button.location-found:hover {
-    background-color: #ccc;
-    border-color: #ccc;
-    color: #243860;
+    background-color: var(--standard-grey);
+    border-color: var(--standard-grey);
+    color: var(--primary-color);
 }
 
 
@@ -176,11 +195,11 @@ body {
     display: flex;
     justify-content: start;
     align-items: center;
-    gap: 5px;
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-    background-color: white;
-    padding: 5px;
+    gap: var(--small-gap);
+    border-top: 1px solid var(--standard-grey);
+    border-bottom: 1px solid var(--standard-grey);
+    background-color: var(--white);
+    padding: var(--standard-padding);
 }
 
 .filter-option {
@@ -191,12 +210,13 @@ body {
     text-indent: 0.01px;
     text-overflow: '';
     text-align: center;
-    background-color: #ddd;
+    background-color: var(--mid-grey);
     border: 0;
-    border-radius: 25px;
+    border-radius: var(--rounded);
     height: 100%;
-    padding: 5px 10px;
+    padding: var(--standard-padding) var(--big-padding);
     width: 60px;
+    transition: .2s;
 }
 
 #sorting {
@@ -209,7 +229,7 @@ body {
 #reset-button:hover,
 #toggle-list-size-button:hover,
 #radius-input:hover {
-    background-color: #ccc;
+    background-color: var(--standard-grey);
 }
 
 
@@ -218,27 +238,27 @@ body {
     height: 100%;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: #ccc transparent;
-    background-color: white;
+    scrollbar-color: var(--standard-grey) transparent;
+    background-color: var(--white);
 }
 
 .gasStationListItem {
     display: grid;
     grid-template-columns: 3fr 1fr;
-    gap: 10px;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
+    gap: var(--standard-gap);
+    padding: var(--big-padding);
+    border-bottom: 1px solid var(--standard-grey);
     font-size: 14px;
 }
 
 .gasStationListItem[data-open="false"] {
     opacity: 0.5;
-    background-color: #545454;
+    background-color: var(--dark-grey);
 }
 
 .gasStationGeneral>div {
     display: flex;
-    gap: 5px;
+    gap: var(--small-gap);
 }
 
 .brand {
@@ -253,7 +273,7 @@ body {
 }
 
 .dist {
-    color: #545454;
+    color: var(--dark-grey);
     font-size: 12px;
     display: contents;
 }
@@ -269,8 +289,8 @@ body {
 
 .gasStationPrice>.price {
     padding: 2.5px 5px;
-    background-color: black;
-    color: white;
+    background-color: var(--black);
+    color: var(--white);
     font-size: 22px;
     font-family: 'Seven Segment', sans-serif;
 }

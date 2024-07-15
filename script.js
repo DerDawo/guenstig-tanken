@@ -367,7 +367,7 @@ function snapListToPoints(){
     }
 
     list_slider.style.height = `${newHeight}px`;
-    document.body.style.gridTemplateRows = `56px auto ${newHeight}px`;
+    document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${newHeight}px`;
 }
 
 
@@ -432,7 +432,7 @@ document.addEventListener('touchmove', (e) => {
     const computedHeight = list_slider.clientHeight - delta;
     
     list_slider.style.height = `${computedHeight}px`;
-    document.body.style.gridTemplateRows = `56px auto ${computedHeight}px`;
+    document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${computedHeight}px`;
 
     previousYList = e.touches[0].clientY; // Use e.touches for touch events
 });
