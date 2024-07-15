@@ -32,7 +32,9 @@ const mid_btm_breakpoint = Math.round((list_btm_end + list_mid_end) * .5);
 let lastSearchMarker;
 let searchMarkers = [];
 let gasStations = [];
-let sortingOption = sorting_slider.value
+let sortingOption = sorting_slider.value;
+let isResizingList = false;
+let previousYList = 0;
 
 
 // Functions
@@ -313,7 +315,6 @@ function searchGasStations() {
         });
 }
 
-// Location icon
 function UserLocationIcon() {
     return L.icon({
         iconUrl: './location.png',
@@ -338,7 +339,6 @@ function LocationIcon() {
     });
 }
 
-// Gast Station Icon
 function GasStationIcon() {
     return L.icon({
         iconUrl: './gas_marker.png',
@@ -351,44 +351,23 @@ function GasStationIcon() {
     });
 }
 
-function toggleListFocus() {
-    if (this.checked) {
-        maximizeList()
-    }
-    if (!this.checked) {
-        minimizeList()
-    }
-}
+function snapListToPoints(){
+    isResizingList = false;
 
-function toggleMapFocus() {
-    if (this.checked) {
-        maximizeMap()
-    }
-    if (!this.checked) {
-        minimizeMap()
-    }
-}
+    const computedHeight = list_slider.clientHeight;
 
-function maximizeList() {
-    if (document.body.classList.contains('focus-map')) {
-        minimizeMap()
+    let newHeight = 0;
+
+    if (computedHeight >= top_mid_breakpoint){
+        newHeight = list_top_end
+    } else if ( computedHeight < top_mid_breakpoint && computedHeight >= mid_btm_breakpoint ){
+        newHeight = list_mid_end
+    } else {
+        newHeight = list_btm_end
     }
-    document.body.classList.add("focus-list")
-}
 
-function minimizeList() {
-    document.body.classList.remove("focus-list")
-}
-
-function maximizeMap() {
-    if (document.body.classList.contains('focus-list')) {
-        minimizeList()
-    }
-    document.body.classList.add("focus-map")
-}
-
-function minimizeMap() {
-    document.body.classList.remove("focus-map")
+    list_slider.style.height = `${newHeight}px`;
+    document.body.style.gridTemplateRows = `56px auto ${newHeight}px`;
 }
 
 
@@ -436,53 +415,28 @@ location_input.addEventListener('keydown', (evt) => {
     if (evt.keyCode == 27) { hideLocationSuggestionsContainer() }
 })
 delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
-
-// JavaScript for resizable list slider
-let isResizing = false;
-let prevY = 0;
-
 list_slider_search.addEventListener('touchstart', (e) => {
-    isResizing = true;
-    prevY = e.touches[0].clientY; // Use e.touches for touch events
+    isResizingList = true;
+    previousYList = e.touches[0].clientY; // Use e.touches for touch events
 });
 list_slider_knob.addEventListener('touchstart', (e) => {
     e.preventDefault(); // Prevent default touch behavior if needed
-    isResizing = true;
-    prevY = e.touches[0].clientY; // Use e.touches for touch events
+    isResizingList = true;
+    previousYList = e.touches[0].clientY; // Use e.touches for touch events
 });
-
 document.addEventListener('touchmove', (e) => {
     e.preventDefault(); // Prevent default touch behavior if needed
-    if (!isResizing) return;
+    if (!isResizingList) return;
     
-    const delta = e.touches[0].clientY  - prevY;
+    const delta = e.touches[0].clientY  - previousYList;
     const computedHeight = list_slider.clientHeight - delta;
     
     list_slider.style.height = `${computedHeight}px`;
     document.body.style.gridTemplateRows = `56px auto ${computedHeight}px`;
 
-    prevY = e.touches[0].clientY; // Use e.touches for touch events
+    previousYList = e.touches[0].clientY; // Use e.touches for touch events
 });
-
-document.addEventListener('touchend', (e) => {
-    isResizing = false;
-
-    const computedHeight = list_slider.clientHeight;
-
-    let newHeight = 0;
-
-    if (computedHeight >= top_mid_breakpoint){
-        newHeight = list_top_end
-    } else if ( computedHeight < top_mid_breakpoint && computedHeight >= mid_btm_breakpoint ){
-        newHeight = list_mid_end
-    } else {
-        newHeight = list_btm_end
-    }
-
-    list_slider.style.height = `${newHeight}px`;
-    document.body.style.gridTemplateRows = `56px auto ${newHeight}px`;
-
-});
+document.addEventListener('touchend', snapListToPoints);
 
 
 
