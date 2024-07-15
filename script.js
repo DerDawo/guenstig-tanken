@@ -6,7 +6,6 @@ import { showSnackbar } from "./components.js"
 const latlngBerlin = [52.5200, 13.4050]
 const map = L.map('map').setView(latlngBerlin, 13);
 
-
 // DOM-Elements
 const current_location_button = $id("current-location-button");
 const search_location_button = $id("search-location-button");
@@ -21,6 +20,7 @@ const list_slider_knob = $id("list-slider-knob");
 const list_slider_search = $id("list-slider-search");
 const app_bar = $id("app-bar")
 
+// SnapPoints In The Window
 const list_top_end = window.innerHeight - app_bar.style.height;
 const list_mid_end = Math.round(list_top_end * .5);
 const list_btm_end = 65;
@@ -359,10 +359,19 @@ function snapListToPoints(){
     let newHeight = 0;
 
     if (computedHeight >= top_mid_breakpoint){
+        location_suggestions_div.classList.add("snap-top")
+        location_suggestions_div.classList.remove("snap-mid")
+        location_suggestions_div.classList.remove("snap-btm")
         newHeight = list_top_end
     } else if ( computedHeight < top_mid_breakpoint && computedHeight >= mid_btm_breakpoint ){
+        location_suggestions_div.classList.add("snap-mid")
+        location_suggestions_div.classList.remove("snap-top")
+        location_suggestions_div.classList.remove("snap-btm")
         newHeight = list_mid_end
     } else {
+        location_suggestions_div.classList.add("snap-btm")
+        location_suggestions_div.classList.remove("snap-mid")
+        location_suggestions_div.classList.remove("snap-top")
         newHeight = list_btm_end
     }
 
@@ -455,3 +464,5 @@ try {
     lastSearchMarker = L.marker(latlngBerlin, { icon: LocationIcon() })
     .addTo(map)
 }
+
+snapListToPoints()

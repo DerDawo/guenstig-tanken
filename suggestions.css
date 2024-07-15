@@ -1,11 +1,14 @@
+:root{
+    --margin: 3px;
+}
+
 .location-suggestions {
     position: absolute;
-    top: 50px;
-    left: 55px;
-    width: calc(100% - 57px - 56px);
+    left: 50px;
+    width: calc(100% - 52px - 52px);
     min-height: 35px;
     display: none;
-    max-height: 50dvh;
+    max-height: 40dvh;
     background-color: white;
     z-index: 9999;
     border: 2px solid #ccc;
@@ -15,8 +18,23 @@
     scrollbar-color: #ccc transparent;
 }
 
+.snap-top{
+    top: calc(var(--app-bar-height) + 20px + 45px - var(--margin));
+    bottom: unset;
+}
+
+.snap-mid{
+    top: unset;
+    bottom: calc(calc(100dvh - var(--app-bar-height)) / 2 + 2 * var(--margin));
+}
+
+.snap-btm{
+    top: unset;
+    bottom: calc(45px - var(--margin));
+}
+
 .suggestion-item{
-    padding: 10px;
+    padding: 5px;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
 }
