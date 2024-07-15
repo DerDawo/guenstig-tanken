@@ -442,7 +442,6 @@ let isResizing = false;
 let prevY = 0;
 
 list_slider_search.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Prevent default touch behavior if needed
     isResizing = true;
     prevY = e.touches[0].clientY; // Use e.touches for touch events
 });
