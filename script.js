@@ -434,30 +434,34 @@ delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
 let isResizing = false;
 let prevY = 0;
 
-list_slider_knob.addEventListener('mousedown', (e) => {
-    console.log("START")
+list_slider_knob.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevent default touch behavior if needed
     isResizing = true;
-    prevY = e.clientY;
+    prevY = e.touches[0].clientY; // Use e.touches for touch events
 });
 
-document.addEventListener('mousemove', (e) => {
-    if (!isResizing) return;
+document.addEventListener('touchmove', (e) => {
 
-    const delta = e.clientY - prevY;
+    e.preventDefault(); // Prevent default touch behavior if needed
+    if (!isResizing) return;
+    
+    const delta = e.touches[0].clientY  - prevY;
     const computedHeight = list_slider.clientHeight - delta;
     const availabelHeight = window.innerHeight - app_bar.style.height;
+
     const newHeight = computedHeight < availabelHeight ? computedHeight : availabelHeight;
 
-    if(computedHeight > availabelHeight) return;
+    if (computedHeight > availabelHeight) return;
 
     list_slider.style.height = `${newHeight}px`;
-    document.body.style.gridTemplateRows = `56px auto ${newHeight}px`
-    prevY = e.clientY;
+    document.body.style.gridTemplateRows = `56px auto ${newHeight}px`;
+    prevY = e.touches[0].clientY; // Use e.touches for touch events
 });
 
-document.addEventListener('mouseup', () => {
+document.addEventListener('touchend', () => {
     isResizing = false;
 });
+
 
 
 // Init App
