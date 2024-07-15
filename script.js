@@ -15,10 +15,10 @@ const location_suggestions_div = $id('location-suggestions');
 const gas_type_input = $id('gas-type');
 const radius_input = $id('radius-input');
 const sorting_slider = $id('sorting');
-const toggle_map_focus_button = $id('toggle-map-focus')
-const toggle_list_focus_button = $id('toggle-list-focus')
 const delete_location_input = $id('delete-location-input');
-
+const list_slider = $id("list-slider");
+const list_slider_knob = $id("list-slider-knob")
+const app_bar = $id("app-bar")
 
 // Variables
 // Add a marker at the Berlin Main Station
@@ -422,8 +422,6 @@ current_location_button.addEventListener('click', locateUser);
 gas_type_input.addEventListener('change', searchGasStations);
 radius_input.addEventListener('input', searchGasStations);
 sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
-toggle_map_focus_button.addEventListener('change', toggleMapFocus)
-toggle_list_focus_button.addEventListener('change', toggleListFocus)
 location_input.addEventListener('click', showLocationSuggestionsContainer)
 location_input.addEventListener('input', getLocationSuggestions)
 location_input.addEventListener('keydown', (evt) => {
@@ -431,6 +429,35 @@ location_input.addEventListener('keydown', (evt) => {
     if (evt.keyCode == 27) { hideLocationSuggestionsContainer() }
 })
 delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
+
+// JavaScript for resizable list slider
+let isResizing = false;
+let prevY = 0;
+
+list_slider_knob.addEventListener('mousedown', (e) => {
+    console.log("START")
+    isResizing = true;
+    prevY = e.clientY;
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isResizing) return;
+
+    const delta = e.clientY - prevY;
+    const computedHeight = list_slider.clientHeight - delta;
+    const availabelHeight = window.innerHeight - app_bar.style.height;
+    const newHeight = computedHeight < availabelHeight ? computedHeight : availabelHeight;
+
+    if(computedHeight > availabelHeight) return;
+
+    list_slider.style.height = `${newHeight}px`;
+    document.body.style.gridTemplateRows = `56px auto ${newHeight}px`
+    prevY = e.clientY;
+});
+
+document.addEventListener('mouseup', () => {
+    isResizing = false;
+});
 
 
 // Init App

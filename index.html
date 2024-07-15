@@ -51,51 +51,49 @@
 </head>
 
 <body>
-    <div class="app-bar">
-        <button id="current-location-button">
-            <i class="fa-solid fa-location-crosshairs"></i>
-            <i class="fa-solid fa-spinner fa-spin-pulse"></i>
-        </button>
-        <span id="location-input">
-            <input id="pac-input" class="controls" type="text" placeholder="Standort eingeben">
-            <button id="delete-location-input">
-                <i class="fa-solid fa-xmark"></i>
+    <div id="app-bar" class="app-bar">
+        <a class="app-logo-name">
+            <img class="app-logo" src="/icons/android-icon-192x192.png">
+            <p class="app-name">Voll Tanken</p>
+        </a>
+    </div>
+    <div id="map" class="map-view"></div>
+    <div class="list-slider" id="list-slider">
+        <div id="list-slider-knob" class="list-slider-knob">
+            <div class="list-slider-knob-bar"></div>
+        </div>
+        <div class="list-slider-search">
+            <button class="location-button" id="current-location-button">
+                <i class="fa-solid fa-location-crosshairs"></i>
+                <i class="fa-solid fa-spinner fa-spin-pulse"></i>
             </button>
-        </span>
-        <div id="location-suggestions" class="location-suggestions"></div>
-        <button id="search-location-button">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </button>
-    </div>
-    <div id="map" class="map-view">
-        <label class="map-option" for="toggle-map-focus" id="toggle-map-size-button" title="Karte ausklappen">
-            <input type="checkbox" id="toggle-map-focus">
-            <i class="fa-solid fa-maximize"></i>
-            <i class="fa-solid fa-minimize"></i>
-        </label>
-    </div>
-    <div class="filter">
-        <toggle-slider class="filter-option" id="sorting"></toggle-slider>
-        <select class="filter-option" id="gas-type" title="Treibstoff">
-            <option value="diesel">Diesel</option>
-            <option value="e5">Super</option>
-            <option value="e10">E10</option>
-        </select>
-        <select class="filter-option" id="radius-input" type="number" title="Suchradius">
-            <option value="1">1 km</option>
-            <option value="2">2 km</option>
-            <option value="5">5 km</option>
-            <option value="10">10 km</option>
-            <option value="25">25 km</option>
-        </select>
-        <label class="filter-option" for="toggle-list-focus" id="toggle-list-size-button" title="Liste ausklappen">
-            <input type="checkbox" id="toggle-list-focus">
-            <i class="fa-solid fa-maximize"></i>
-            <i class="fa-solid fa-minimize"></i>
-        </label>
-    </div>
-    <div class="gas-station-list">
-        <div class="results" id="results"></div>
+            <span id="location-input">
+                <input id="pac-input" class="controls" type="text" placeholder="Standort eingeben">
+                <button id="delete-location-input">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </span>
+            <div id="location-suggestions" class="location-suggestions"></div>
+            <button class="location-button" id="search-location-button">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+        <div class="filter">
+            <toggle-slider class="filter-option" id="sorting"></toggle-slider>
+            <select class="filter-option" id="gas-type" title="Treibstoff">
+                <option value="diesel">Diesel</option>
+                <option value="e5">Super</option>
+                <option value="e10">E10</option>
+            </select>
+            <select class="filter-option" id="radius-input" type="number" title="Suchradius">
+                <option value="1">1 km</option>
+                <option value="2">2 km</option>
+                <option value="5">5 km</option>
+                <option value="10">10 km</option>
+                <option value="25">25 km</option>
+            </select>
+        </div>
+        <div class="results gas-station-list" id="results"></div>
     </div>
     <script src="./script.js" type="module"></script>
     <div id="snackbar"></div>
