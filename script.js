@@ -20,6 +20,12 @@ const list_slider = $id("list-slider");
 const list_slider_knob = $id("list-slider-knob")
 const app_bar = $id("app-bar")
 
+const list_top_end = window.innerHeight - app_bar.style.height;
+const list_mid_end = Math.round(list_top_end * .5);
+const list_btm_end = 65;
+const top_mid_breakpoint = Math.round((list_top_end + list_mid_end) * .5);
+const mid_btm_breakpoint = Math.round((list_btm_end + list_mid_end) * .5);
+
 // Variables
 // Add a marker at the Berlin Main Station
 let lastSearchMarker;
@@ -441,25 +447,36 @@ list_slider_knob.addEventListener('touchstart', (e) => {
 });
 
 document.addEventListener('touchmove', (e) => {
-
     e.preventDefault(); // Prevent default touch behavior if needed
     if (!isResizing) return;
     
     const delta = e.touches[0].clientY  - prevY;
     const computedHeight = list_slider.clientHeight - delta;
-    const availabelHeight = window.innerHeight - app_bar.style.height;
+    
+    list_slider.style.height = `${computedHeight}px`;
+    document.body.style.gridTemplateRows = `56px auto ${computedHeight}px`;
 
-    const newHeight = computedHeight < availabelHeight ? computedHeight : availabelHeight;
-
-    if (computedHeight > availabelHeight) return;
-
-    list_slider.style.height = `${newHeight}px`;
-    document.body.style.gridTemplateRows = `56px auto ${newHeight}px`;
     prevY = e.touches[0].clientY; // Use e.touches for touch events
 });
 
-document.addEventListener('touchend', () => {
+document.addEventListener('touchend', (e) => {
     isResizing = false;
+
+    const computedHeight = list_slider.clientHeight;
+
+    let newHeight = 0;
+
+    if (computedHeight >= top_mid_breakpoint){
+        newHeight = list_top_end
+    } else if ( computedHeight < top_mid_breakpoint && computedHeight >= mid_btm_breakpoint ){
+        newHeight = list_mid_end
+    } else {
+        newHeight = list_btm_end
+    }
+
+    list_slider.style.height = `${newHeight}px`;
+    document.body.style.gridTemplateRows = `56px auto ${newHeight}px`;
+
 });
 
 
