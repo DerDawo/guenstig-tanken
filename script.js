@@ -17,7 +17,8 @@ const radius_input = $id('radius-input');
 const sorting_slider = $id('sorting');
 const delete_location_input = $id('delete-location-input');
 const list_slider = $id("list-slider");
-const list_slider_knob = $id("list-slider-knob")
+const list_slider_knob = $id("list-slider-knob");
+const list_slider_search = $id("list-slider-search");
 const app_bar = $id("app-bar")
 
 const list_top_end = window.innerHeight - app_bar.style.height;
@@ -440,6 +441,11 @@ delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
 let isResizing = false;
 let prevY = 0;
 
+list_slider_search.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevent default touch behavior if needed
+    isResizing = true;
+    prevY = e.touches[0].clientY; // Use e.touches for touch events
+});
 list_slider_knob.addEventListener('touchstart', (e) => {
     e.preventDefault(); // Prevent default touch behavior if needed
     isResizing = true;
