@@ -49,6 +49,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: var(--standard-gap);
+    width: 100%;
 }
 
 .app-logo {
