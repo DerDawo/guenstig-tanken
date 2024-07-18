@@ -400,13 +400,13 @@ function basicInit(){
 }
 
 function initByParams(){
-    let latlng = [getUrlParams().get("lat"),getUrlParams().get("lng")]
+    let latlng = [urlParams.get("lat"),urlParams.get("lng")]
 
-    if(getUrlParams().get("gas_type") !== null){
-        gas_type_input.value = getUrlParams().get("gas_type")
+    if(urlParams.get("gas_type") !== null){
+        gas_type_input.value = urlParams.get("gas_type")
     }
-    if(getUrlParams().get("radius") !== null){
-        radius_input.value = getUrlParams().get("radius")
+    if(urlParams.get("radius") !== null){
+        radius_input.value = urlParams.get("radius")
     }
 
     locationFound(latlng,"",LocationIcon)

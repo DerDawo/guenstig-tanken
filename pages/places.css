@@ -188,6 +188,12 @@ body{
     gap: 10px;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
+    color: var(--black);
+}
+
+.find-gas-station:visited{
+    color: var(--black);
 }
 
 .find-gas-station:hover{
