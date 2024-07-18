@@ -1,6 +1,8 @@
 import { capitalize, $id, $class, superscriptLastElement, debounce } from "./helper.js";
 import { showSnackbar } from "./components.js"
 
+
+
 // Constants
 // Initialize the map and set its view to Berlin Main Station
 const latlngBerlin = [52.5200, 13.4050]
@@ -35,6 +37,7 @@ let gasStations = [];
 let sortingOption = sorting_slider.value;
 let isResizingList = false;
 let previousYList = 0;
+let urlParams = [];
 
 
 // Functions
@@ -379,6 +382,35 @@ function snapListToPoints(){
     document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${newHeight}px`;
 }
 
+function getUrlParams(){
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    return urlParams
+}
+
+function basicInit(){
+    try {
+        locateUser()
+    } catch (error){
+        removeLoadingStatusCurrentLocationButton()
+        console.log(error)
+        lastSearchMarker = L.marker(latlngBerlin, { icon: LocationIcon() })
+        .addTo(map)
+    }
+}
+
+function initByParams(){
+    let latlng = [getUrlParams().get("lat"),getUrlParams().get("lng")]
+
+    if(getUrlParams().get("gas_type") !== null){
+        gas_type_input.value = getUrlParams().get("gas_type")
+    }
+    if(getUrlParams().get("radius") !== null){
+        radius_input.value = getUrlParams().get("radius")
+    }
+
+    locationFound(latlng,"",LocationIcon)
+}
 
 // Events
 // Success when the user's position found
@@ -446,23 +478,24 @@ document.addEventListener('touchmove', (e) => {
     previousYList = e.touches[0].clientY; // Use e.touches for touch events
 });
 document.addEventListener('touchend', snapListToPoints);
-
-
+document.addEventListener("DOMContentLoaded",init)
 
 // Init App
-// Add a tile layer to the map (this one is free from OpenStreetMap)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: ''
-}).addTo(map);
+function init(){
 
-try {
-    locateUser()
-} catch (error){
-    removeLoadingStatusCurrentLocationButton()
-    console.log(error)
-    lastSearchMarker = L.marker(latlngBerlin, { icon: LocationIcon() })
-    .addTo(map)
+    // Add a tile layer to the map (this one is free from OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: ''
+    }).addTo(map);
+
+    urlParams = getUrlParams()
+
+    if(urlParams.size === 0){
+        basicInit()
+    } else {
+        initByParams()
+    }
+
+    snapListToPoints()
 }
-
-snapListToPoints()
