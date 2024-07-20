@@ -229,11 +229,11 @@ function addGasStationListItem(station) {
                 <p class="dist" >${station.dist}km</p>
                 </div>
                 <div>
-                    <p class="postCode" >${station.postCode}</p>
-                    <p class="place" >${capitalize(station.place.toLowerCase())}</p>
+                    <p class="postCode" >${addLeadingZero(station.postCode)}</p>
+                    <p class="place" >${capitalize(station.place)}</p>
                 </div>
                 <div>
-                    <p class="street" >${capitalize(station.street.toLowerCase())}</p>
+                    <p class="street" >${capitalize(station.street)}</p>
                     <p class="houseNumber" >${station.houseNumber}</p>
                 </div>
             </div>
@@ -244,7 +244,7 @@ function addGasStationListItem(station) {
         </div>
     `
     $id("results").insertAdjacentHTML('beforeend', listItem);
-
+    // focus gasStation
     $id(station.id).addEventListener('click', () => {
         const result = searchMarkers.filter(marker => {
             return marker.id === station.id
