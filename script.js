@@ -185,11 +185,42 @@ function locationFound(latitude_longitude, popup_adress, icon) {
     searchGasStations();
 }
 
+function openMaps(lat, lng) {
+    var googleMapsURL = "https://www.google.com/maps/dir/?api=1&destination=" + lat + "," + lng;
+    var appleMapsURL = "http://maps.apple.com/?daddr=" + lat + "," + lng;
+    var wazeURL = "https://waze.com/ul?ll=" + lat + "," + lng + "&navigate=yes";
+    
+    if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+        window.location.href = appleMapsURL;
+    } else if (navigator.userAgent.match(/Android/i)) {
+        // Check if Waze is installed (Android only)
+        var intent = document.createElement("a");
+        intent.href = "intent://waze.com/ul?ll=" + lat + "," + lng + "&navigate=yes#Intent;scheme=https;package=com.waze;end";
+        document.body.appendChild(intent);
+        intent.click();
+        
+        setTimeout(function () {
+            // Fallback to Google Maps if Waze is not installed
+            window.location.href = googleMapsURL;
+        }, 250);
+    } else {
+        // Default to Google Maps for other platforms
+        window.location.href = googleMapsURL;
+    }
+}
+
 function addGasStationMarker(station) {
     var marker = L.marker([station.lat, station.lng], { icon: GasStationIcon() })
         .addTo(map)
-        .bindPopup(`<span class="popup-price">${capitalize(gas_type_input.value)}: ${station.price} €</span><br><br><span class="popup-brand">${station.brand}</span><br>${addLeadingZero(station.postCode)} ${capitalize(station.place)}<br>${capitalize(station.street)} ${station.houseNumber}<br><br><a href="geo:${station.lat},${station.lng}" target="_blank">Route berechnen</a>
-`);
+        .bindPopup(`
+            <span class="popup-price">${capitalize(gas_type_input.value)}: ${station.price} €</span><br>
+            <br>
+            <span class="popup-brand">${station.brand}</span><br>
+            ${addLeadingZero(station.postCode)} ${capitalize(station.place)}<br>
+            ${capitalize(station.street)} ${station.houseNumber}<br>
+            <br>
+            <a href="#" onclick="openMaps(${station.lat}, ${station.lng})">Route berechnen</a>`
+        );
     searchMarkers.push(
         {
             marker: marker,
