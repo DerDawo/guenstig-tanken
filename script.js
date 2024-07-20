@@ -1,4 +1,4 @@
-import { capitalize, $id, $class, superscriptLastElement, debounce } from "./helper.js";
+import { capitalize, $id, $class, superscriptLastElement, debounce, addLeadingZero } from "./helper.js";
 import { showSnackbar } from "./components.js"
 
 
@@ -188,7 +188,8 @@ function locationFound(latitude_longitude, popup_adress, icon) {
 function addGasStationMarker(station) {
     var marker = L.marker([station.lat, station.lng], { icon: GasStationIcon() })
         .addTo(map)
-        .bindPopup(`${capitalize(gas_type_input.value)}: ${station.price} €<br>${station.brand}<br>${station.postCode} ${capitalize(station.place)}<br>${capitalize(station.street)} ${station.houseNumber}`);
+        .bindPopup(`<span class="popup-price">${capitalize(gas_type_input.value)}: ${station.price} €</span><br><br><span class="popup-brand">${station.brand}</span><br>${addLeadingZero(station.postCode)} ${capitalize(station.place)}<br>${capitalize(station.street)} ${station.houseNumber}<br><br><a href="geo:${station.lat},${station.lng}" target="_blank">Route berechnen</a>
+`);
     searchMarkers.push(
         {
             marker: marker,

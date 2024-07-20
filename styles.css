@@ -70,6 +70,10 @@ body {
     height: 100%;
 }
 
+.popup-price, .popup-brand{
+    font-weight: bold;
+}
+
 
 /*LIST SLIDER*/
 .list-slider {

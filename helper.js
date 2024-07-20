@@ -13,7 +13,8 @@ export function debounce(func, wait) {
 }
 
 export function capitalize(s) {
-    return s.split('-')
+    return s.toLowerCase()
+            .split('-')
             .map(part => part[0].toUpperCase() + part.slice(1))
             .join('-')
             .split(' ')
@@ -32,4 +33,12 @@ export function $id(id){
 
 export function $class(id){
     return document.getElementsByClassname(id);
+}
+
+export function addLeadingZero(s) {
+    let str = String(s)
+    if (str.length === 4) {
+        return '0' + str;
+    }
+    return str;
 }
