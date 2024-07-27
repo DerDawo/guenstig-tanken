@@ -1,8 +1,6 @@
 import { capitalize, $id, $class, superscriptLastElement, debounce, addLeadingZero } from "./helper.js";
 import { showSnackbar } from "./components.js"
 
-
-
 // Constants
 // Initialize the map and set its view to Berlin Main Station
 const latlngBerlin = [52.5200, 13.4050]
@@ -195,8 +193,8 @@ function addGasStationMarker(station) {
             ${addLeadingZero(station.postCode)} ${capitalize(station.place)}<br>
             ${capitalize(station.street)} ${station.houseNumber}<br>
             <br>
-            <a href="geo:${station.lat},${station.lng}" target="_blank">Route berechnen</a>
-`);
+            <a href="geo:${station.lat},${station.lng}" target="_blank">Route</a>
+        `);
     searchMarkers.push(
         {
             marker: marker,
@@ -362,19 +360,19 @@ function GasStationIcon() {
     });
 }
 
-function snapListToPoints(){
+function snapListToPoints() {
     isResizingList = false;
 
     const computedHeight = list_slider.clientHeight;
 
     let newHeight = 0;
 
-    if (computedHeight >= top_mid_breakpoint){
+    if (computedHeight >= top_mid_breakpoint) {
         location_suggestions_div.classList.add("snap-top")
         location_suggestions_div.classList.remove("snap-mid")
         location_suggestions_div.classList.remove("snap-btm")
         newHeight = list_top_end
-    } else if ( computedHeight < top_mid_breakpoint && computedHeight >= mid_btm_breakpoint ){
+    } else if (computedHeight < top_mid_breakpoint && computedHeight >= mid_btm_breakpoint) {
         location_suggestions_div.classList.add("snap-mid")
         location_suggestions_div.classList.remove("snap-top")
         location_suggestions_div.classList.remove("snap-btm")
@@ -390,34 +388,34 @@ function snapListToPoints(){
     document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${newHeight}px`;
 }
 
-function getUrlParams(){
+function getUrlParams() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     return urlParams
 }
 
-function basicInit(){
+function basicInit() {
     try {
         locateUser()
-    } catch (error){
+    } catch (error) {
         removeLoadingStatusCurrentLocationButton()
         console.log(error)
         lastSearchMarker = L.marker(latlngBerlin, { icon: LocationIcon() })
-        .addTo(map)
+            .addTo(map)
     }
 }
 
-function initByParams(){
-    let latlng = [urlParams.get("lat"),urlParams.get("lng")]
+function initByParams() {
+    let latlng = [urlParams.get("lat"), urlParams.get("lng")]
 
-    if(urlParams.get("gas_type") !== null){
+    if (urlParams.get("gas_type") !== null) {
         gas_type_input.value = urlParams.get("gas_type")
     }
-    if(urlParams.get("radius") !== null){
+    if (urlParams.get("radius") !== null) {
         radius_input.value = urlParams.get("radius")
     }
 
-    locationFound(latlng,"",LocationIcon)
+    locationFound(latlng, "", LocationIcon)
 }
 
 // Events
@@ -476,20 +474,20 @@ list_slider_knob.addEventListener('touchstart', (e) => {
 document.addEventListener('touchmove', (e) => {
     e.preventDefault(); // Prevent default touch behavior if needed
     if (!isResizingList) return;
-    
-    const delta = e.touches[0].clientY  - previousYList;
+
+    const delta = e.touches[0].clientY - previousYList;
     const computedHeight = list_slider.clientHeight - delta;
-    
+
     list_slider.style.height = `${computedHeight}px`;
     document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${computedHeight}px`;
 
     previousYList = e.touches[0].clientY; // Use e.touches for touch events
 });
 document.addEventListener('touchend', snapListToPoints);
-document.addEventListener("DOMContentLoaded",init)
+document.addEventListener("DOMContentLoaded", init)
 
 // Init App
-function init(){
+function init() {
 
     // Add a tile layer to the map (this one is free from OpenStreetMap)
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -499,7 +497,7 @@ function init(){
 
     urlParams = getUrlParams()
 
-    if(urlParams.size === 0){
+    if (urlParams.size === 0) {
         basicInit()
     } else {
         initByParams()

@@ -1,0 +1,50 @@
+:root{
+    --position-above-input: 0px;
+    --position-under-input: 0px;
+}
+
+.list-slider-search{
+    gap: unset !important;
+    padding: 0 !important;
+    border-radius: 25px !important;
+    width: 100%;
+}
+
+.location-button{
+    border: 0 !important;
+    border-radius: 25px 0 0 25px !important;
+    background-color: unset !important;
+    background-color: var(--mid-grey) !important;
+}
+
+#location-input{
+    border: 0 !important;
+    border-radius: 0 !important;
+}
+
+#pac-input{
+    background-color: var(--mid-grey) !important;
+    border-left: 1px solid var(--standard-grey) !important;
+    border-right: 1px solid var(--standard-grey) !important;
+}
+
+#delete-location-input{
+    background-color: var(--mid-grey) !important;
+    border-left: 0 !important;
+    border-radius:  0 25px 25px 0 !important;
+}
+
+.location-button:hover, #pac-input:hover, #delete-location-input:hover{
+    background-color: var(--standard-grey) !important;
+}
+
+.location-suggestions{
+    left: 0px !important;
+}
+
+.snap-under-input{
+    position: relative !important;
+    grid-column: 1 / 4;
+    width: calc(100% - 4px) !important;
+    margin-top: 10px;
+}

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Titel-Beschreibung -->
+    <title>Voll-Tank.de - Finden Sie die günstigsten Spritpreise in Ihrer Nähe</title>
+
+    <!-- Meta-Beschreibung -->
+    <meta name="description"
+        content="Voll-Tank.de findet die günstigsten Spritpreise in Ihrer Nähe. Vergleichen Sie Diesel, Super und E10, und sparen Sie beim Tanken.">
+
+    <!-- Schlüsselwörter -->
+    <meta name="keywords" content="günstig tanken, billig tanken, Spritpreise, Kraftstoffpreise">
+
+    <!-- Open Graph Tags -->
+    <meta property="og:title" content="Voll-Tank.de - Finden Sie die günstigsten Spritpreise in Ihrer Nähe">
+    <meta property="og:description"
+        content="Voll-Tank.de findet die günstigsten Spritpreise in Ihrer Nähe. Vergleichen Sie Diesel, Super und E10, und sparen Sie beim Tanken.">
+    <meta property="og:image" content="https://www.voll-tank.de/src/android-icon-192x192.png">
+    <meta property="og:url" content="https://www.voll-tank.de/">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Voll-Tank.de - Finden Sie die günstigsten Spritpreise in Ihrer Nähe">
+    <meta name="twitter:description"
+        content="Voll-Tank.de findet die günstigsten Spritpreise in Ihrer Nähe. Vergleichen Sie Diesel, Super und E10, und sparen Sie beim Tanken.">
+    <meta name="twitter:image" content="https://www.voll-tank.de/src/android-icon-192x192.png">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.voll-tank.de/src/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.voll-tank.de/src/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="https://www.voll-tank.de/src/favicon-48x48.png">
+
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="https://www.voll-tank.de/src/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="https://www.voll-tank.de/src/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="https://www.voll-tank.de/src/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="https://www.voll-tank.de/src/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="https://www.voll-tank.de/src/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="https://www.voll-tank.de/src/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="https://www.voll-tank.de/src/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="https://www.voll-tank.de/src/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.voll-tank.de/src/apple-icon-180x180.png">
+
+    <!-- Android Chrome Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="https://www.voll-tank.de/src/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://www.voll-tank.de/src/android-icon-512x512.png">
+
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#243860">
+    <meta name="msapplication-TileImage" content="https://www.voll-tank.de/src/ms-icon-144x144.png">
+
+    <!-- Theme Colors -->
+    <meta name="theme-color" content="#243860"> <!-- Android Chrome -->
+    <meta name="msapplication-navbutton-color" content="#243860"> <!-- Windows Phone -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#243860"> <!-- iOS Safari -->
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="https://www.voll-tank.de/manifest.json">
+
+
+    <link rel="stylesheet" href="../meta.css">
+    <link rel="stylesheet" href="../places.css">
+    <link rel="stylesheet" href="../../suggestions.css">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="../../helper.js" type="module" defer></script>
+
+</head>
+
+<body>
+    <div id="app-bar" class="app-bar">
+        <a class="app-logo-name" href="https://www.voll-tank.de">
+            <img alt="Erfurt" class="app-logo" src="../../src/transparent.png">
+            <h2 class="app-name">Voll-Tank.de</h2>
+        </a>
+    </div>
+    <div class="place-banner">
+        <img class="place-banner-img" src="./main.jpg">
+        <h1 class="place-banner-h1">Günstig tanken!</h1>
+        <p class="place-banner-img-citation">
+            Foto von <a
+                href="https://unsplash.com/de/@maxboettinger?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Max
+                Böttinger</a> auf <a
+                href="https://unsplash.com/de/fotos/luftaufnahmen-von-hausern-und-gebauden-Gup8MCvSsf0?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+        </p>
+        <a class="place-link" id="find-gas-station-main"
+            href="https://www.voll-tank.de?lat=52.5200&lng=13.4050&gas_type=diesel&radius=1">Tankstellen finden!</a>
+    </div>
+    <div class="place-text">
+        <p>
+            Finde die günstigste Tankstelle in ganz Deutschland – jederzeit!<br><br>Mit voll-tank.de erfährst du immer,
+            wo du am
+            meisten sparen kannst. Einfach, schnell und zuverlässig die besten Preise im Umkreis finden.<br><br>Tanke
+            smart, spare bares Geld!
+        </p>
+    </div>
+    <div class="features">
+        <div class="features-container">
+
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-filter-circle-dollar"></i>
+                </div>
+                <p class="features-text">
+                    Finde Tankstellen nach Entfernung und Preis
+                </p>
+            </div>
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-ruler"></i>
+                </div>
+                <p class="features-text">
+                    Suchradius bis 25 km einstellbar
+                </p>
+            </div>
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-droplet"></i>
+                </div>
+                <p class="features-text">
+                    Treibstoffe: Diesel, Super, E10 verfügbar
+                </p>
+            </div>
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                </div>
+                <p class="features-text">
+                    Nutze die interaktive Karte zur Navigation
+                </p>
+            </div>
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-circle-info"></i>
+                </div>
+                <p class="features-text">
+                    Erhalte Öffnungszeiten und Adresse der Tankstelle
+                </p>
+            </div>
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-earth-europe"></i>
+                </div>
+                <p class="features-text">
+                    Funktioniert deutschlandweit zuverlässig
+                </p>
+            </div>
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <p class="features-text">
+                    Intelligente Suchfunktion für schnelle Ergebnisse
+                </p>
+            </div>
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                </div>
+                <p class="features-text">
+                    Lokalisierung deines aktuellen Standorts
+                </p>
+            </div>
+            <div class="features-single">
+                <div class="features-icon">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
+                <p class="features-text">
+                    Viele weitere Funktionen geplant
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="search">
+        <div class="search-container">
+            <label>Adresse suchen</label>
+            <div id="list-slider-search" class="list-slider-search">
+                <button class="location-button" id="current-location-button">
+                    <i class="fa-solid fa-location-crosshairs"></i>
+                    <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+                </button>
+                <span id="location-input">
+                    <input id="pac-input" class="controls" type="text" placeholder="Ort suchen">
+                </span>
+                <button id="delete-location-input">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div id="location-suggestions" class="location-suggestions snap-under-input"></div>
+            </div>
+            <label>Treibstoff auswählen</label>
+            <select class="filter-option" id="gas-type" title="Treibstoff">
+                <option value="diesel">Diesel</option>
+                <option value="e5">Super</option>
+                <option value="e10">E10</option>
+            </select>
+            <label>Umkreis festlegen</label>
+            <select class="filter-option" id="radius-input" type="number" title="Suchradius">
+                <option value="1">1 km</option>
+                <option value="2">2 km</option>
+                <option value="5">5 km</option>
+                <option value="10">10 km</option>
+                <option value="25">25 km</option>
+            </select>
+            <div class="divider"></div>
+            <a class="filter-option find-gas-station" id="find-gas-station-bottom"
+                href="https://www.voll-tank.de?lat=52.5200&lng=13.4050&gas_type=diesel&radius=1">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Tankstellen finden
+            </a>
+        </div>
+    </div>
+    <script src="../meta.js" type="module"></script>
+
+</body>
+
+</html>
