@@ -1,5 +1,6 @@
 import { capitalize, $id, $class, superscriptLastElement, debounce, addLeadingZero } from "./helper.js";
 import { showSnackbar } from "./components.js"
+import { API_KEY } from "./env.js";
 
 // Constants
 // Initialize the map and set its view to Berlin Main Station
@@ -295,7 +296,7 @@ function searchGasStations() {
 
     const latlng = lastSearchMarker.getLatLng();
 
-    fetch(`https://creativecommons.tankerkoenig.de/json/list.php?lat=${latlng.lat}&lng=${latlng.lng}&rad=${radius}&sort=dist&type=${gas_type_input.value}&apikey=6364803c-c10f-2f91-6b61-b4bda5cdfe4c`)
+    fetch(`https://creativecommons.tankerkoenig.de/json/list.php?lat=${latlng.lat}&lng=${latlng.lng}&rad=${radius}&sort=dist&type=${gas_type_input.value}&apikey=${API_KEY}`)
         .then(response => response.json())
         .then(data => {
 
