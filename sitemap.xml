@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
    <url>
-      <loc>http://www.voll-tank.de/</loc>
+      <loc>https://www.voll-tank.de/</loc>
       <lastmod>2024-07-15</lastmod>
       <priority>1.00</priority>
    </url>
    <url>
-      <loc>http://www.voll-tank.de/meta/guenstig-tanken</loc>
+      <loc>https://www.voll-tank.de/meta/guenstig-tanken</loc>
       <lastmod>2024-07-26</lastmod>
       <priority>1.00</priority>
    </url>
    <url>
-      <loc>http://www.voll-tank.de/pages/erfurt</loc>
+      <loc>https://www.voll-tank.de/pages/erfurt</loc>
       <lastmod>2024-07-15</lastmod>
-      <priority>0.80</priority>
+      <priority>1.00</priority>
    </url>
    <url>
-      <loc>http://www.voll-tank.de/pages/jena</loc>
+      <loc>https://www.voll-tank.de/pages/jena</loc>
       <lastmod>2024-07-15</lastmod>
-      <priority>0.80</priority>
+      <priority>1.00</priority>
    </url>
    <url>
-      <loc>http://www.voll-tank.de/pages/leipzig</loc>
+      <loc>https://www.voll-tank.de/pages/leipzig</loc>
       <lastmod>2024-07-15</lastmod>
-      <priority>0.80</priority>
+      <priority>1.00</priority>
    </url>
 </urlset>
