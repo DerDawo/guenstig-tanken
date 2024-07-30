@@ -37,7 +37,6 @@ let isResizingList = false;
 let previousYList = 0;
 let urlParams = [];
 
-
 // Functions
 function deleteAndCloseLocationInput() {
     location_input.value = ''
