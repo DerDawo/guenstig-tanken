@@ -10,6 +10,7 @@
     --white: #ffffff;
     --dark-grey: #545454;
     --black: #000000;
+    --green: #006400;
     --standard-padding: 5px;
     --small-padding: calc(var(--small-padding) / 2);
     --big-padding: calc(2 * var(--standard-padding));
@@ -275,6 +276,12 @@ body {
 .street,
 .houseNumber {
     font-size: 12px;
+}
+
+.isOpen{
+    color: var(--green);
+    font-size: 12px;
+    display: contents;
 }
 
 .dist {

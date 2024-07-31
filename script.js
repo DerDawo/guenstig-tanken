@@ -30,7 +30,6 @@ const top_mid_breakpoint = Math.round((list_top_end + list_mid_end) * .5);
 const mid_btm_breakpoint = Math.round((list_btm_end + list_mid_end) * .5);
 
 // Variables
-// Add a marker at the Berlin Main Station
 let lastSearchMarker;
 let searchMarkers = [];
 let gasStations = [];
@@ -40,6 +39,7 @@ let previousYList = 0;
 let urlParams = [];
 
 // Functions
+// Clear the location input and hide suggestions
 function deleteAndCloseLocationInput() {
     location_input.value = ''
     hideLocationSuggestionsContainer()
@@ -138,8 +138,11 @@ function getLocationSuggestions() {
         });
 }
 
-function pleaseEnterAdressSnackbar() {
+function DebouncedGetLocalSuggestions(){
+    console.log(debounce)
+    debounce(getLocationSuggestions,1000)
 }
+
 
 // Search current location using Nominatim API
 function searchLocation() {
@@ -188,7 +191,10 @@ function locationFound(latitude_longitude, popup_adress, icon) {
 }
 
 function addGasStationMarker(station) {
-    var marker = L.marker([station.lat, station.lng], { icon: GasStationIcon() })
+
+    const icon = station.isOpen === true ? GasStationIcon : GasStationIconClosed
+
+    var marker = L.marker([station.lat, station.lng], { icon: icon() })
         .addTo(map)
         .bindPopup(`
             <span class="popup-price">${capitalize(gas_type_input.value)}: ${station.price} €</span><br>
@@ -228,6 +234,7 @@ function addGasStationListItem(station) {
             <div class="gasStationGeneral">
                 <div>
                 <p class="brand" >${station.brand}</p>
+                <p class="isOpen" >${station.isOpen === true ? "Geöffnet" : ""}</p>
                 <p class="dist" >${station.dist}km</p>
                 </div>
                 <div>
@@ -240,7 +247,7 @@ function addGasStationListItem(station) {
                 </div>
             </div>
             <div class="gasStationPrice">
-                <p class="price" >${superscriptLastElement(station.price)}</p>
+                <p class="price" >${station.isOpen === true ? superscriptLastElement(station.price) : superscriptLastElement("8.888")}</p>
                 <p class="gasType" ></p>
             </div>
         </div>
@@ -378,6 +385,18 @@ function LocationIcon() {
 function GasStationIcon() {
     return L.icon({
         iconUrl: './gas_marker.png',
+        shadowUrl: './shadow.png',
+        iconSize: [32, 32],
+        shadowSize: [32, 32],
+        iconAnchor: [0, 32],
+        shadowAnchor: [4, 32],
+        popupAnchor: [16, -32]
+    });
+}
+
+function GasStationIconClosed() {
+    return L.icon({
+        iconUrl: './gas_marker_closed.png',
         shadowUrl: './shadow.png',
         iconSize: [32, 32],
         shadowSize: [32, 32],
