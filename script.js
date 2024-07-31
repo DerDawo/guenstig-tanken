@@ -6,6 +6,7 @@ import { API_KEY } from "./env.js";
 // Initialize the map and set its view to Berlin Main Station
 const latlngBerlin = [52.5200, 13.4050]
 const map = L.map('map').setView(latlngBerlin, 13);
+const price_update_interval = 1000 * 60 * 15;
 
 // DOM-Elements
 const current_location_button = $id("current-location-button");
@@ -137,6 +138,9 @@ function getLocationSuggestions() {
         });
 }
 
+function pleaseEnterAdressSnackbar() {
+}
+
 // Search current location using Nominatim API
 function searchLocation() {
     if (!location_input.value) {
@@ -180,7 +184,7 @@ function locationFound(latitude_longitude, popup_adress, icon) {
         .addTo(map)
 
     // Search Gas Station
-    searchGasStations();
+    searchGasStations(gasStationsFoundCallback);
 }
 
 function addGasStationMarker(station) {
@@ -285,7 +289,7 @@ function sortGasStationListByDistance() {
 }
 
 // Search the gas stations
-function searchGasStations() {
+function searchGasStations(successCallback = null) {
 
     const radius = radius_input.value;
 
@@ -315,13 +319,36 @@ function searchGasStations() {
             sortGasStationList()
             fillGasStationList()
 
-            showSnackbar(`Es wurden ${data.stations.length} Tankstelle(n) gefunden.`)
+            if (successCallback !== null) {
+                successCallback()
+            }
+
 
         })
         .catch(error => {
             console.error('Error:', error);
             showSnackbar("Es trat ein Fehler beim Suchen von Tankstellen auf.")
         });
+}
+
+function gasStationsFoundCallback() {
+    if (gasStations.length === 1) {
+        showSnackbar(`Es wurde ${gasStations.length} Tankstelle gefunden.`)
+        return
+    }
+    showSnackbar(`Es wurden ${gasStations.length} Tankstellen gefunden.`)
+}
+
+function gasStationsPricesUpdatedCallback() {
+    showSnackbar(`Preise wurden aktualisiert.`)
+}
+
+function updateGasStationPrices() {
+    setInterval(updateGasStationPricesWrapper, price_update_interval)
+}
+
+function updateGasStationPricesWrapper() {
+    searchGasStations(gasStationsPricesUpdatedCallback)
 }
 
 function UserLocationIcon() {
@@ -418,6 +445,10 @@ function initByParams() {
     locationFound(latlng, "", LocationIcon)
 }
 
+function errorInLocalizationSnackbar() {
+    showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
+}
+
 // Events
 // Success when the user's position found
 map.on('locationfound', function (e) {
@@ -436,7 +467,7 @@ map.on('locationfound', function (e) {
             locationFound(latlng, data.display_name, UserLocationIcon)
         })
         .catch(error => {
-            showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
+            errorInLocalizationSnackbar()
             console.error(error);
         });
 });
@@ -444,16 +475,18 @@ map.on('locationfound', function (e) {
 // Error in locating the user's position
 map.on('locationerror', function (e) {
     removeLoadingStatusCurrentLocationButton()
-    showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
+    errorInLocalizationSnackbar()
     console.error(e.message);
 });
+
+
 
 
 // EventListeners
 search_location_button.addEventListener('click', searchLocation);
 current_location_button.addEventListener('click', locateUser);
-gas_type_input.addEventListener('change', searchGasStations);
-radius_input.addEventListener('input', searchGasStations);
+gas_type_input.addEventListener('change', () => searchGasStations(gasStationsFoundCallback));
+radius_input.addEventListener('input', () => searchGasStations(gasStationsFoundCallback));
 sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
 location_input.addEventListener('click', showLocationSuggestionsContainer)
 location_input.addEventListener('input', getLocationSuggestions)
@@ -504,4 +537,6 @@ function init() {
     }
 
     snapListToPoints()
+    setTimeout(updateGasStationPrices, price_update_interval)
+
 }
