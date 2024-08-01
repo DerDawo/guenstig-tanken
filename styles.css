@@ -34,6 +34,30 @@ body {
     overflow: hidden;
 }
 
+@media (min-width: 700px) and (orientation: landscape) {
+    body{
+        grid-template-rows: var(--app-bar-height) auto !important;
+        grid-template-columns: 1fr 428px !important;
+        grid-template-areas: 
+            'app-bar app-bar'
+            'map list'
+        ;
+    }
+
+    .app-bar{
+        grid-area: app-bar !important;
+    }
+
+    .list-slider{
+        border-right: 1px solid var(--dark-grey) !important;
+        grid-template-rows: 45px 45px auto !important;
+    }
+
+    .list-slider-knob {
+        display: none !important;
+    }
+}
+
 /*APPBAR*/
 .app-bar {
     background-color: var(--primary-color);

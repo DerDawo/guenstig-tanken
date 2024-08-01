@@ -430,6 +430,8 @@ function snapListToPoints() {
         newHeight = list_btm_end
     }
 
+    newHeight -= 55
+
     list_slider.style.height = `${newHeight}px`;
     document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${newHeight}px`;
 }
@@ -514,28 +516,32 @@ location_input.addEventListener('keydown', (evt) => {
     if (evt.keyCode == 27) { hideLocationSuggestionsContainer() }
 })
 delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
-list_slider_search.addEventListener('touchstart', (e) => {
-    isResizingList = true;
-    previousYList = e.touches[0].clientY; // Use e.touches for touch events
-});
-list_slider_knob.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Prevent default touch behavior if needed
-    isResizingList = true;
-    previousYList = e.touches[0].clientY; // Use e.touches for touch events
-});
-document.addEventListener('touchmove', (e) => {
-    e.preventDefault(); // Prevent default touch behavior if needed
-    if (!isResizingList) return;
 
-    const delta = e.touches[0].clientY - previousYList;
-    const computedHeight = list_slider.clientHeight - delta;
+if (!window.matchMedia("(orientation: landscape)").matches) {
+    list_slider_search.addEventListener('touchstart', (e) => {
+        isResizingList = true;
+        previousYList = e.touches[0].clientY; // Use e.touches for touch events
+    });
+    list_slider_knob.addEventListener('touchstart', (e) => {
+        e.preventDefault(); // Prevent default touch behavior if needed
+        isResizingList = true;
+        previousYList = e.touches[0].clientY; // Use e.touches for touch events
+    });
+    document.addEventListener('touchmove', (e) => {
+        e.preventDefault(); // Prevent default touch behavior if needed
+        if (!isResizingList) return;
+    
+        const delta = e.touches[0].clientY - previousYList;
+        const computedHeight = list_slider.clientHeight - delta;
+    
+        list_slider.style.height = `${computedHeight}px`;
+        document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${computedHeight}px`;
+    
+        previousYList = e.touches[0].clientY; // Use e.touches for touch events
+    });
+    document.addEventListener('touchend', snapListToPoints);
+}
 
-    list_slider.style.height = `${computedHeight}px`;
-    document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${computedHeight}px`;
-
-    previousYList = e.touches[0].clientY; // Use e.touches for touch events
-});
-document.addEventListener('touchend', snapListToPoints);
 document.addEventListener("DOMContentLoaded", init)
 
 // Init App
