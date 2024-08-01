@@ -430,7 +430,9 @@ function snapListToPoints() {
         newHeight = list_btm_end
     }
 
-    newHeight -= 55
+    if(window.matchMedia("(orientation: landscape)").matches){
+        newHeight -= 55
+    }
 
     list_slider.style.height = `${newHeight}px`;
     document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${newHeight}px`;
