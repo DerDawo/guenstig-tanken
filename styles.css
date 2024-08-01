@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.cdnfonts.com/css/seven-segment');
 
-:root{
+:root {
     --app-bar-height: 56px;
     --primary-color: #243860;
     --light-grey: #f4f4f4;
@@ -35,20 +35,20 @@ body {
 }
 
 @media (min-width: 700px) and (orientation: landscape) {
-    body{
+    body {
         grid-template-rows: var(--app-bar-height) auto !important;
         grid-template-columns: 1fr 428px !important;
-        grid-template-areas: 
+        grid-template-areas:
             'app-bar app-bar'
             'map list'
         ;
     }
 
-    .app-bar{
+    .app-bar {
         grid-area: app-bar !important;
     }
 
-    .list-slider{
+    .list-slider {
         border-right: 1px solid var(--dark-grey) !important;
         grid-template-rows: 45px 45px auto !important;
     }
@@ -95,7 +95,8 @@ body {
     height: 100%;
 }
 
-.popup-price, .popup-brand{
+.popup-price,
+.popup-brand {
     font-weight: bold;
 }
 
@@ -302,7 +303,7 @@ body {
     font-size: 12px;
 }
 
-.isOpen{
+.isOpen {
     color: var(--green);
     font-size: 12px;
     display: contents;
@@ -340,4 +341,29 @@ body {
 
 .gasStationGeneral {
     display: grid;
+}
+
+
+
+.adListItem {
+    background-color: #ffd900;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.adListItem>a {
+    color: black;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.adListItem>a>p {
+    padding: 0px !important;
+}
+
+.adListItem>a {
+    width: 100%;
 }

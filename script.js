@@ -225,7 +225,14 @@ function emptyGasStationList() {
 
 function fillGasStationList() {
     emptyGasStationList()
-    gasStations.forEach(station => addGasStationListItem(station))
+    let counter = 0;
+    for(const station of gasStations){
+        counter += 1
+        addGasStationListItem(station)
+        if(counter === 3 || ((counter - 3) % 5 === 0)){
+            addAdListItem(counter)
+        }
+    }
 }
 
 function addGasStationListItem(station) {
@@ -260,6 +267,17 @@ function addGasStationListItem(station) {
         })
         result[0].marker.fire('click');
     })
+}
+
+function addAdListItem(counter){
+    const listItem = `
+    <div class="gasStationListItem adListItem" data-priority="${counter === 3 ? 1 : 2}">
+        <a href="mailto:voll-tank@gmail.com">
+            <p>Hier könnte Ihre Werbung stehen!</p>
+        </a>
+    </div>
+`
+$id("results").insertAdjacentHTML('beforeend', listItem);
 }
 
 function sortGasStationList() {
