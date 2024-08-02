@@ -77,6 +77,10 @@ body {
     width: 100%;
 }
 
+.app-logo-name:visited{
+    text-decoration: none;
+}
+
 .app-logo {
     height: 100%;
     width: auto;
@@ -86,6 +90,7 @@ body {
     color: var(--white);
     margin: 0;
     font-size: 1.6rem;
+    text-decoration: none;
 }
 
 /*MAP*/
@@ -236,6 +241,7 @@ body {
 .filter-option {
     font-size: 14px;
     height: 100%;
+    appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
     text-indent: 0.01px;
