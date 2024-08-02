@@ -233,6 +233,9 @@ function fillGasStationList() {
             addAdListItem(counter)
         }
     }
+    if(gasStations.length <= 3){
+        addAdListItem(counter)
+    }
 }
 
 function addGasStationListItem(station) {
