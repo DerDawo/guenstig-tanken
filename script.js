@@ -275,7 +275,7 @@ function addGasStationListItem(station) {
 function addAdListItem(counter){
     const listItem = `
     <div class="gasStationListItem adListItem" data-priority="${counter === 3 ? 1 : 2}">
-        <a href="mailto:voll-tank@gmail.com">
+        <a href="mailto:vollertanken@gmail.com">
             <p>Hier könnte Ihre Werbung stehen!</p>
         </a>
     </div>
