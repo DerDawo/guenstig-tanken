@@ -133,20 +133,19 @@ body {
 .list-slider-search {
     background-color: var(--white);
     display: grid;
-    grid-template-columns: 35px auto 35px;
-    gap: var(--standard-gap);
+    grid-template-columns: 35px auto;
     padding: var(--standard-padding);
 }
 
 #location-input {
-    border: 2px solid var(--standard-grey);
-    border-radius: var(--standard-radius);
     display: flex;
     flex-direction: row;
     gap: 0;
     cursor: pointer;
     color: var(--primary-color);
     font-size: 14px;
+    border: 1px solid var(--standard-grey);
+    border-radius: 0 50px 50px 0;
 }
 
 #pac-input {
@@ -156,17 +155,20 @@ body {
     background-color: transparent;
     border: 0;
     padding: var(--standard-padding);
-    width: 100%;
+    width: calc(100% - 43px);
+    font-size: 11px;
 }
 
 #delete-location-input {
     border: 0;
     background-color: transparent;
-    border-left: 2px solid var(--standard-grey);
     padding: var(--standard-padding);
     aspect-ratio: 1 / 1;
     cursor: pointer;
     transition: 0.2s;
+    border-left: 1px solid var(--standard-grey);
+    width: 33px;
+    border-radius: 0 50px 50px 0;
 }
 
 #delete-location-input:hover {
@@ -174,8 +176,6 @@ body {
 }
 
 .location-button {
-    border: 2px solid var(--standard-grey);
-    border-radius: var(--standard-radius);
     cursor: pointer;
     transition: 0.2s;
     font-size: 1rem;
@@ -184,6 +184,9 @@ body {
     color: var(--primary-color);
     background-color: var(--mid-grey);
     aspect-ratio: 1 / 1;
+    border: 1px solid var(--standard-grey);
+    border-right: 0;
+    border-radius: 50% 0 0 50%;
 }
 
 .location-button:hover {
@@ -202,7 +205,6 @@ body {
     pointer-events: none;
     background-color: var(--standard-grey);
     color: var(--dark-grey);
-    border-color: var(--dark-grey);
 }
 
 #current-location-button.loading>.fa-location-crosshairs {
@@ -224,6 +226,9 @@ body {
     border-color: var(--standard-grey);
     color: var(--primary-color);
 }
+
+  
+
 
 
 /*FILTER*/

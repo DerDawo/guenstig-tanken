@@ -10,7 +10,6 @@ const price_update_interval = 1000 * 60 * 15;
 
 // DOM-Elements
 const current_location_button = $id("current-location-button");
-const search_location_button = $id("search-location-button");
 const location_input = $id('pac-input');
 const location_suggestions_div = $id('location-suggestions');
 const gas_type_input = $id('gas-type');
@@ -93,6 +92,7 @@ function addLocationSuggestionsItem(place) {
         location_input.value = place.display_name;
         location_suggestions_div.innerHTML = '';
         hideLocationSuggestionsContainer()
+        searchLocation()
     });
 
     location_suggestions_div.appendChild(suggestionItem);
@@ -523,7 +523,6 @@ map.on('locationerror', function (e) {
 
 
 // EventListeners
-search_location_button.addEventListener('click', searchLocation);
 current_location_button.addEventListener('click', locateUser);
 gas_type_input.addEventListener('change', () => searchGasStations(gasStationsFoundCallback));
 radius_input.addEventListener('input', () => searchGasStations(gasStationsFoundCallback));
