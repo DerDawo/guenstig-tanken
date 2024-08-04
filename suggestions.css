@@ -4,18 +4,20 @@
 
 .location-suggestions {
     position: absolute;
-    left: 50px;
-    width: calc(100% - 52px - 52px);
-    min-height: 35px;
+    left: 39px;
+    width: calc(100% - 2 * 39px);
+    min-height: 24px;
     display: none;
     max-height: 40dvh;
     background-color: white;
     z-index: 9999;
-    border: 2px solid #ccc;
+    border: 1px solid #ccc;
     border-radius: 5px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #ccc transparent;
+    -webkit-box-shadow: 1px 3px 19px 1px #000000; 
+box-shadow: 1px 3px 19px 1px #000000;
 }
 
 .snap-top{
@@ -37,6 +39,7 @@
     padding: 5px;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
+    font-size: 11px;
 }
 
 .suggestion-item:hover{

@@ -146,6 +146,7 @@ body {
     font-size: 14px;
     border: 1px solid var(--standard-grey);
     border-radius: 0 50px 50px 0;
+    background-color: var(--mid-grey);
 }
 
 #pac-input {
@@ -157,6 +158,10 @@ body {
     padding: var(--standard-padding);
     width: calc(100% - 43px);
     font-size: 11px;
+}
+
+#pac-input:hover {
+    background-color: var(--light-grey);
 }
 
 #delete-location-input {
@@ -190,7 +195,7 @@ body {
 }
 
 .location-button:hover {
-    background-color: var(--standard-grey);
+    background-color: var(--light-grey);
 }
 
 #current-location-button {
@@ -237,7 +242,6 @@ body {
     justify-content: start;
     align-items: center;
     gap: var(--small-gap);
-    border-top: 1px solid var(--standard-grey);
     border-bottom: 1px solid var(--standard-grey);
     background-color: var(--white);
     padding: var(--standard-padding);

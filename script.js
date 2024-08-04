@@ -7,6 +7,11 @@ import { API_KEY } from "./env.js";
 const latlngBerlin = [52.5200, 13.4050]
 const map = L.map('map').setView(latlngBerlin, 13);
 const price_update_interval = 1000 * 60 * 15;
+const config = {
+    radius: 25,
+    gas_type: 'diesel',
+    sorting: 'price'
+}
 
 // DOM-Elements
 const current_location_button = $id("current-location-button");
