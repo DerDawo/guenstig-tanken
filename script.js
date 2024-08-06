@@ -29,7 +29,7 @@ const app_bar = $id("app-bar")
 // SnapPoints In The Window
 const list_top_end = window.innerHeight - app_bar.style.height - 55;
 const list_mid_end = Math.round(list_top_end * .5);
-const list_btm_end = 65;
+const list_btm_end = 110;
 const top_mid_breakpoint = Math.round((list_top_end + list_mid_end) * .5);
 const mid_btm_breakpoint = Math.round((list_btm_end + list_mid_end) * .5);
 

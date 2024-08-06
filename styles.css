@@ -9,6 +9,7 @@
     --standard-grey: #cccccc;
     --white: #ffffff;
     --dark-grey: #545454;
+    --extra-dark-grey: #242424;
     --black: #000000;
     --green: #006400;
     --standard-padding: 5px;
@@ -116,7 +117,6 @@ body {
 
 .list-slider-knob {
     background-color: var(--white);
-    border-bottom: 1px solid var(--standard-grey);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -248,7 +248,7 @@ body {
 }
 
 .filter-option {
-    font-size: 14px;
+    font-size: 12px;
     height: 100%;
     appearance: none;
     -moz-appearance: none;

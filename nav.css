@@ -1,0 +1,107 @@
+nav {
+    position: absolute;
+    top: var(--app-bar-height);
+    width: 100%;
+    background-color: var(--white);
+    z-index: 999999;
+    height: calc(100% - var(--app-bar-height));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translate(100%, 0%);
+    transition: 0.3s;
+}
+
+nav > .primary-links{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+nav > .primary-links > a{
+    padding: calc( 2 * var(--big-padding)) 0;
+    border-top: 1px solid var(--standard-grey);
+    width: 100%;
+    text-align: center;
+}
+
+nav > .primary-links > a:last-of-type{
+    border-bottom: 1px solid var(--standard-grey);
+}
+
+nav > .secondary-links{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    padding: var(--big-padding);
+}
+
+nav > .secondary-links > a{
+    font-size: 10px;
+    padding: var(--standard-padding);
+    border-right: 1px solid var(--standard-grey);
+}
+
+nav > .secondary-links > a:last-of-type{
+    border-right: 0;
+}
+
+nav > .primary-links > a, nav > .secondary-links > a{
+    text-decoration: none;
+    color: var(--extra-dark-grey);
+}
+
+nav > .primary-links > a:visited, nav > .secondary-links > a:visited{
+    color: var(--extra-dark-grey);
+}
+
+#toggle-menu{
+    position: absolute;
+    right: var(--big-padding);
+    top: var(--big-padding);
+    aspect-ratio: 1/1;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#toggle-menu > input{   
+    display: none;
+}
+
+#toggle-menu > i{   
+    color: white;
+    font-size: 1.6rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: 0.5s;
+}
+
+#toggle-menu > input:not(:checked) ~ .fa-xmark{
+    visibility: hidden;
+    opacity: 0;
+}
+
+#toggle-menu > input:checked ~ .fa-bars{
+    visibility: hidden;
+    opacity: 0;
+}
+
+#app-bar:has(#toggle-menu > input:not(:checked)) ~ nav{
+    transform: translate(100%, 0%);
+
+}
+
+#app-bar:has(#toggle-menu > input:checked) ~ nav{
+    transform: translate(0%, 0%);
+}

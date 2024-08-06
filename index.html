@@ -65,6 +65,7 @@
     <link rel="manifest" href="./manifest.json">
 
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./nav.css">
     <link rel="stylesheet" href="./suggestions.css">
     <link rel="stylesheet" href="./components.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -95,6 +96,11 @@
             <img class="app-logo" src="./src/transparent.png">
             <h1 class="app-name">Voll-Tank.de</h1>
         </a>
+        <label id="toggle-menu">
+            <input type="checkbox" id="toggle-menu-checkbox">
+            <i class="fa-solid fa-bars"></i>
+            <i class="fa-solid fa-xmark"></i>
+        </label>
     </div>
     <div id="map" class="map-view"></div>
     <div class="list-slider" id="list-slider">
@@ -133,6 +139,18 @@
     </div>
     <script src="./script.js" type="module"></script>
     <div id="snackbar"></div>
+    <nav>
+        <div class="primary-links">
+            <a href="https://www.voll-tank.de/ueber-uns">Über uns</a>
+            <a href="https://www.voll-tank.de/orte">Orte</a>
+            <a href="https://www.voll-tank.de/werbung">Werbung schalten</a>
+            <a href="https://www.voll-tank.de/verbesserung">Verbesserungs<wbr>vorschläge</a>
+        </div>
+        <div class="secondary-links">
+            <a href="https://www.voll-tank.de/impressum">Impressum</a>
+            <a href="https://www.voll-tank.de/dsgvo">DSGVO</a>
+        </div>
+    </nav>
 </body>
 
 </html>
