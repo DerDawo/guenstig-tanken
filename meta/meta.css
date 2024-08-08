@@ -7,7 +7,9 @@
     gap: unset !important;
     padding: 0 !important;
     border-radius: 25px !important;
-    width: 100%;
+    width: 100% !important;
+    grid-template-columns: 35px auto 35px !important;
+    background-color: unset !important;
 }
 
 .location-button{
@@ -26,12 +28,14 @@
     background-color: var(--mid-grey) !important;
     border-left: 1px solid var(--standard-grey) !important;
     border-right: 1px solid var(--standard-grey) !important;
+    width: 100% !important;
 }
 
 #delete-location-input{
     background-color: var(--mid-grey) !important;
     border-left: 0 !important;
     border-radius:  0 25px 25px 0 !important;
+    width: unset !important;
 }
 
 .location-button:hover, #pac-input:hover, #delete-location-input:hover{
@@ -48,3 +52,5 @@
     width: calc(100% - 4px) !important;
     margin-top: 10px;
 }
+
+  
