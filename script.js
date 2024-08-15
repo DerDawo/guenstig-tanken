@@ -327,7 +327,7 @@ function whileDraggingList(event) {
 
 // Function to handle click
 function handleClick(event) {
-    if (isDragging) {
+    if (isResizingList) {
         event.stopImmediatePropagation(); // Stop click handling if dragging
         return;
     }
