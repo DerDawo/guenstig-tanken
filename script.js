@@ -300,18 +300,19 @@ function addAdListItem(counter) {
 // Dragging the GasStationList
 function startDraggingListFromSearchContainer(event) {
     isResizingList = true;
+    event.preventDefault(); // Prevent default touch behavior if needed
     previousYList = event.touches[0].clientY; // Use e.touches for touch events
 }
 
 function startDraggingListFromKnobContainer(event) {
-    event.preventDefault(); // Prevent default touch behavior if needed
     isResizingList = true;
+    event.preventDefault(); // Prevent default touch behavior if needed
     previousYList = event.touches[0].clientY; // Use e.touches for touch events
 }
 
 function whileDraggingList(event) {
-    event.preventDefault(); // Prevent default touch behavior if needed
     if (!isResizingList) return;
+    event.preventDefault(); // Prevent default touch behavior if needed
 
     const delta = event.touches[0].clientY - previousYList;
     const computedHeight = list_slider.clientHeight - delta;
@@ -324,11 +325,23 @@ function whileDraggingList(event) {
     previousYList = event.touches[0].clientY; // Use e.touches for touch events
 }
 
+// Function to handle click
+function handleClick(event) {
+    if (isDragging) {
+        event.stopImmediatePropagation(); // Stop click handling if dragging
+        return;
+    }
+    // Handle the click event here if not dragging
+}
+
+
 function snapListToPoints(snapToMid = false, snapToTop = false) {
     list_slider.style.removeProperty('height')
     list_slider.classList.remove('transitioning-height')
     list_slider.classList.add('transition-height-start')
-    isResizingList = false;
+    if (isResizingList){
+        isResizingList = false;
+    }
 
     const computedHeight = list_slider.clientHeight;
 
@@ -609,7 +622,9 @@ location_input.addEventListener('keydown', (evt) => {
 delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
 if (!window.matchMedia("(orientation: landscape)").matches) {
     // If the Window is not in Landscape, append specific functions
-    list_slider_search.addEventListener('touchstart', startDraggingListFromSearchContainer, {passive: false});
+    list_slider_search.addEventListener('touchstart', startDraggingListFromSearchContainer);
+    // Use a click listener to check if the click should be processed
+    list_slider_search.addEventListener('click', handleClick);
     list_slider_knob.addEventListener('touchstart', startDraggingListFromKnobContainer);
     document.addEventListener('touchmove', whileDraggingList);
     document.addEventListener('touchend', snapListToPoints);
