@@ -302,6 +302,15 @@ function startDraggingListFromSearchContainer(event) {
     isResizingList = true;
     event.preventDefault(); // Prevent default touch behavior if needed
     previousYList = event.touches[0].clientY; // Use e.touches for touch events
+    if(event.target === location_input){
+        location_input.click()
+    }
+    if(event.target === current_location_button){
+        current_location_button.click()
+    }
+    if(event.target === delete_location_input){
+        delete_location_input.click()
+    }
 }
 
 function startDraggingListFromKnobContainer(event) {
@@ -312,6 +321,7 @@ function startDraggingListFromKnobContainer(event) {
 
 function whileDraggingList(event) {
     if (!isResizingList) return;
+    hideLocationSuggestionsContainer()
     event.preventDefault(); // Prevent default touch behavior if needed
 
     const delta = event.touches[0].clientY - previousYList;
@@ -323,15 +333,6 @@ function whileDraggingList(event) {
     map_container.style.height = `calc(100dvh - var(--app-bar-height) - ${list_slider.style.height} + var(--list-slider-knob-container-height))`
 
     previousYList = event.touches[0].clientY; // Use e.touches for touch events
-}
-
-// Function to handle click
-function handleClick(event) {
-    if (isResizingList) {
-        event.stopImmediatePropagation(); // Stop click handling if dragging
-        return;
-    }
-    // Handle the click event here if not dragging
 }
 
 
@@ -623,8 +624,6 @@ delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
 if (!window.matchMedia("(orientation: landscape)").matches) {
     // If the Window is not in Landscape, append specific functions
     list_slider_search.addEventListener('touchstart', startDraggingListFromSearchContainer);
-    // Use a click listener to check if the click should be processed
-    list_slider_search.addEventListener('click', handleClick);
     list_slider_knob.addEventListener('touchstart', startDraggingListFromKnobContainer);
     document.addEventListener('touchmove', whileDraggingList);
     document.addEventListener('touchend', snapListToPoints);
