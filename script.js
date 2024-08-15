@@ -299,6 +299,7 @@ function addAdListItem(counter) {
 
 // Dragging the GasStationList
 function startDraggingListFromSearchContainer(event) {
+    event.preventDefault(); // Prevent default touch behavior if needed
     isResizingList = true;
     previousYList = event.touches[0].clientY; // Use e.touches for touch events
 }
