@@ -299,7 +299,6 @@ function addAdListItem(counter) {
 
 // Dragging the GasStationList
 function startDraggingListFromSearchContainer(event) {
-    event.preventDefault(); // Prevent default touch behavior if needed
     isResizingList = true;
     previousYList = event.touches[0].clientY; // Use e.touches for touch events
 }
@@ -610,7 +609,7 @@ location_input.addEventListener('keydown', (evt) => {
 delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
 if (!window.matchMedia("(orientation: landscape)").matches) {
     // If the Window is not in Landscape, append specific functions
-    list_slider_search.addEventListener('touchstart', startDraggingListFromSearchContainer);
+    list_slider_search.addEventListener('touchstart', startDraggingListFromSearchContainer, {passive: false});
     list_slider_knob.addEventListener('touchstart', startDraggingListFromKnobContainer);
     document.addEventListener('touchmove', whileDraggingList);
     document.addEventListener('touchend', snapListToPoints);
