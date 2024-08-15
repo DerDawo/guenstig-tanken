@@ -1,5 +1,10 @@
-:root{
+:root {
     --margin: 3px;
+}
+
+.transitioning-position-suggestions{
+    top: unset;
+    bottom: unset;
 }
 
 .location-suggestions {
@@ -16,36 +21,37 @@
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #ccc transparent;
-    -webkit-box-shadow: 1px 3px 19px 1px #000000; 
-box-shadow: 1px 3px 19px 1px #000000;
+    -webkit-box-shadow: 1px 3px 19px 1px #000000;
+    box-shadow: 1px 3px 19px 1px #000000;
+    transition: 0.3s;
 }
 
-.snap-top{
-    top: calc(var(--app-bar-height) + 20px + 45px - var(--margin));
+.snap-top {
+    top: calc(var(--list-slider-search-container-height) + var(--list-slider-knob-container-height) + var(--margin));
     bottom: unset;
 }
 
-.snap-mid{
+.snap-mid {
     top: unset;
-    bottom: calc(calc(100dvh - var(--app-bar-height)) / 2 + 2 * var(--margin));
+    bottom: calc(var(--mid-end-height) - var(--list-slider-knob-container-height) + var(--margin));
 }
 
-.snap-btm{
+.snap-btm {
     top: unset;
-    bottom: calc(45px - var(--margin));
+    bottom: calc(var(--list-slider-search-container-height) + var(--list-slider-filter-container-height) + var(--margin));
 }
 
-.suggestion-item{
+.suggestion-item {
     padding: 5px;
     border-bottom: 1px solid #ccc;
     cursor: pointer;
     font-size: 11px;
 }
 
-.suggestion-item:hover{
+.suggestion-item:hover {
     background-color: #f4f4f4;
 }
 
-.suggestion-item:last-of-type{
+.suggestion-item:last-of-type {
     border-bottom: none;
 }

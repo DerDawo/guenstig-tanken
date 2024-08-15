@@ -12,6 +12,8 @@ const config = {
     gas_type: 'diesel',
     sorting: 'price'
 }
+const style = getComputedStyle(document.body)
+const css_vars = $id('css-vars')
 
 // DOM-Elements
 const current_location_button = $id("current-location-button");
@@ -24,14 +26,14 @@ const delete_location_input = $id('delete-location-input');
 const list_slider = $id("list-slider");
 const list_slider_knob = $id("list-slider-knob");
 const list_slider_search = $id("list-slider-search");
-const app_bar = $id("app-bar")
+const map_container = $id('map');
 
 // SnapPoints In The Window
-const list_top_end = window.innerHeight - app_bar.style.height - 55;
-const list_mid_end = Math.round(list_top_end * .5);
-const list_btm_end = 110;
-const top_mid_breakpoint = Math.round((list_top_end + list_mid_end) * .5);
-const mid_btm_breakpoint = Math.round((list_btm_end + list_mid_end) * .5);
+const list_top_end = style.getPropertyValue('--top-end-height');
+const list_mid_end = style.getPropertyValue('--mid-end-height');
+const list_btm_end = style.getPropertyValue('--btm-end-height');
+const top_mid_breakpoint = parseInt(getComputedStyle(css_vars).marginTop.slice(0, -2));
+const mid_btm_breakpoint = parseInt(getComputedStyle(css_vars).marginBottom.slice(0, -2));
 
 // Variables
 let lastSearchMarker;
@@ -43,12 +45,6 @@ let previousYList = 0;
 let urlParams = [];
 
 // Functions
-// Clear the location input and hide suggestions
-function deleteAndCloseLocationInput() {
-    location_input.value = ''
-    hideLocationSuggestionsContainer()
-}
-
 // Locate the user's current position
 function locateUser() {
     unhighlightCurrentLocationFound()
@@ -64,14 +60,19 @@ function removeLoadingStatusCurrentLocationButton() {
     current_location_button.classList.remove("loading")
 }
 
-// Un-Highlight the Current Location Button
 function unhighlightCurrentLocationFound() {
     current_location_button.classList.remove("location-found")
 }
 
-// Highlight the Current Location Button
 function highlightCurrentLocationFound() {
     current_location_button.classList.add("location-found")
+}
+
+// Searching Location and Suggestions
+function deleteAndCloseLocationInput() {
+    // Clear the location input and hide suggestions
+    location_input.value = ''
+    hideLocationSuggestionsContainer()
 }
 
 function showLocationSuggestionsContainer() {
@@ -143,10 +144,7 @@ function getLocationSuggestions() {
         });
 }
 
-function DebouncedGetLocalSuggestions(){
-    console.log(debounce)
-    debounce(getLocationSuggestions,1000)
-}
+const debouncedGetLocalSuggestions = debounce(getLocationSuggestions, 500)
 
 
 // Search current location using Nominatim API
@@ -191,10 +189,20 @@ function locationFound(latitude_longitude, popup_adress, icon) {
     lastSearchMarker = L.marker(latitude_longitude, { icon: icon() })
         .addTo(map)
 
+    fitBoundsMap()
+
     // Search Gas Station
     searchGasStations(gasStationsFoundCallback);
 }
 
+// Update MapView
+function fitBoundsMap() {
+    setTimeout(function () {
+        map.invalidateSize(true);
+    }, 100); // Adjust the value (in ms)
+}
+
+// GasStationMarkers on Map
 function addGasStationMarker(station) {
 
     const icon = station.isOpen === true ? GasStationIcon : GasStationIconClosed
@@ -224,6 +232,7 @@ function addAllGasStationMarkers() {
     });
 }
 
+// Fill the GasStationList
 function emptyGasStationList() {
     $id("results").innerHTML = ``
 }
@@ -231,14 +240,14 @@ function emptyGasStationList() {
 function fillGasStationList() {
     emptyGasStationList()
     let counter = 0;
-    for(const station of gasStations){
+    for (const station of gasStations) {
         counter += 1
         addGasStationListItem(station)
-        if(counter === 3 || ((counter - 3) % 5 === 0)){
+        if (counter === 3 || ((counter - 3) % 5 === 0)) {
             addAdListItem(counter)
         }
     }
-    if(gasStations.length <= 3){
+    if (gasStations.length <= 3) {
         addAdListItem(counter)
     }
 }
@@ -277,7 +286,7 @@ function addGasStationListItem(station) {
     })
 }
 
-function addAdListItem(counter){
+function addAdListItem(counter) {
     const listItem = `
     <div class="gasStationListItem adListItem" data-priority="${counter === 3 ? 1 : 2}">
         <a href="mailto:vollertanken@gmail.com">
@@ -285,9 +294,86 @@ function addAdListItem(counter){
         </a>
     </div>
 `
-$id("results").insertAdjacentHTML('beforeend', listItem);
+    $id("results").insertAdjacentHTML('beforeend', listItem);
 }
 
+// Dragging the GasStationList
+function startDraggingListFromSearchContainer(event) {
+    isResizingList = true;
+    previousYList = event.touches[0].clientY; // Use e.touches for touch events
+}
+
+function startDraggingListFromKnobContainer(event) {
+    event.preventDefault(); // Prevent default touch behavior if needed
+    isResizingList = true;
+    previousYList = event.touches[0].clientY; // Use e.touches for touch events
+}
+
+function whileDraggingList(event) {
+    event.preventDefault(); // Prevent default touch behavior if needed
+    if (!isResizingList) return;
+
+    const delta = event.touches[0].clientY - previousYList;
+    const computedHeight = list_slider.clientHeight - delta;
+
+    list_slider.classList.add('transitioning-height')
+
+    list_slider.style.height = `${computedHeight}px`;
+    map_container.style.height = `calc(100dvh - var(--app-bar-height) - ${list_slider.style.height} + var(--list-slider-knob-container-height))`
+
+    previousYList = event.touches[0].clientY; // Use e.touches for touch events
+}
+
+function snapListToPoints(snapToMid = false, snapToTop = false) {
+    list_slider.style.removeProperty('height')
+    list_slider.classList.remove('transitioning-height')
+    list_slider.classList.add('transition-height-start')
+    isResizingList = false;
+
+    const computedHeight = list_slider.clientHeight;
+
+    if (computedHeight >= top_mid_breakpoint) {
+        location_suggestions_div.classList.add("snap-top")
+        location_suggestions_div.classList.remove("snap-mid")
+        location_suggestions_div.classList.remove("snap-btm")
+        list_slider.classList.add('top-end-height');
+        list_slider.classList.remove('btm-end-height');
+        list_slider.classList.remove('mid-end-height');
+    } else if (computedHeight < top_mid_breakpoint && computedHeight >= mid_btm_breakpoint) {
+        location_suggestions_div.classList.add("snap-mid")
+        location_suggestions_div.classList.remove("snap-top")
+        location_suggestions_div.classList.remove("snap-btm")
+        list_slider.classList.add('mid-end-height');
+        list_slider.classList.remove('top-end-height');
+        list_slider.classList.remove('btm-end-height');
+    } else {
+        location_suggestions_div.classList.add("snap-btm")
+        location_suggestions_div.classList.remove("snap-mid")
+        location_suggestions_div.classList.remove("snap-top")
+        list_slider.classList.add('btm-end-height');
+        list_slider.classList.remove('top-end-height');
+        list_slider.classList.remove('mid-end-height');
+    }
+
+    if (snapToMid === true) {
+        location_suggestions_div.classList.add("snap-mid")
+        location_suggestions_div.classList.remove("snap-top")
+        location_suggestions_div.classList.remove("snap-btm")
+        list_slider.classList.add('mid-end-height');
+        list_slider.classList.remove('top-end-height');
+        list_slider.classList.remove('btm-end-height');
+    }
+    if (snapToTop === true) {
+        location_suggestions_div.classList.add("snap-top")
+        location_suggestions_div.classList.remove("snap-mid")
+        location_suggestions_div.classList.remove("snap-btm")
+        list_slider.classList.add('top-end-height');
+        list_slider.classList.remove('btm-end-height');
+        list_slider.classList.remove('mid-end-height');
+    }
+}
+
+// Sorting of GasStationList
 function sortGasStationList() {
     if (sortingOption === "Price") {
         sortGasStationListByPrice()
@@ -364,6 +450,20 @@ function searchGasStations(successCallback = null) {
         });
 }
 
+// Update the GasStationPrices 
+function updateGasStationPrices() {
+    setInterval(updateGasStationPricesWrapper, price_update_interval)
+}
+
+function updateGasStationPricesWrapper() {
+    searchGasStations(gasStationsPricesUpdatedCallback)
+}
+
+// Callbacks
+function errorInLocalizationCallback() {
+    showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
+}
+
 function gasStationsFoundCallback() {
     if (gasStations.length === 1) {
         showSnackbar(`Es wurde ${gasStations.length} Tankstelle gefunden.`)
@@ -376,14 +476,7 @@ function gasStationsPricesUpdatedCallback() {
     showSnackbar(`Preise wurden aktualisiert.`)
 }
 
-function updateGasStationPrices() {
-    setInterval(updateGasStationPricesWrapper, price_update_interval)
-}
-
-function updateGasStationPricesWrapper() {
-    searchGasStations(gasStationsPricesUpdatedCallback)
-}
-
+// Icons on the Map
 function UserLocationIcon() {
     return L.icon({
         iconUrl: './location.png',
@@ -432,34 +525,7 @@ function GasStationIconClosed() {
     });
 }
 
-function snapListToPoints() {
-    isResizingList = false;
-
-    const computedHeight = list_slider.clientHeight;
-
-    let newHeight = 0;
-
-    if (computedHeight >= top_mid_breakpoint) {
-        location_suggestions_div.classList.add("snap-top")
-        location_suggestions_div.classList.remove("snap-mid")
-        location_suggestions_div.classList.remove("snap-btm")
-        newHeight = list_top_end
-    } else if (computedHeight < top_mid_breakpoint && computedHeight >= mid_btm_breakpoint) {
-        location_suggestions_div.classList.add("snap-mid")
-        location_suggestions_div.classList.remove("snap-top")
-        location_suggestions_div.classList.remove("snap-btm")
-        newHeight = list_mid_end
-    } else {
-        location_suggestions_div.classList.add("snap-btm")
-        location_suggestions_div.classList.remove("snap-mid")
-        location_suggestions_div.classList.remove("snap-top")
-        newHeight = list_btm_end
-    }
-
-    list_slider.style.height = `${newHeight}px`;
-    document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${newHeight}px`;
-}
-
+// Init-Functions
 function getUrlParams() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -490,9 +556,6 @@ function initByParams() {
     locationFound(latlng, "", LocationIcon)
 }
 
-function errorInLocalizationSnackbar() {
-    showSnackbar('Es trat ein Fehler beim Suchen Ihres Standorts auf.')
-}
 
 // Events
 // Success when the user's position found
@@ -512,7 +575,7 @@ map.on('locationfound', function (e) {
             locationFound(latlng, data.display_name, UserLocationIcon)
         })
         .catch(error => {
-            errorInLocalizationSnackbar()
+            errorInLocalizationCallback()
             console.error(error);
         });
 });
@@ -520,11 +583,16 @@ map.on('locationfound', function (e) {
 // Error in locating the user's position
 map.on('locationerror', function (e) {
     removeLoadingStatusCurrentLocationButton()
-    errorInLocalizationSnackbar()
+    errorInLocalizationCallback()
     console.error(e.message);
 });
 
-
+// Transition of List ended
+list_slider.addEventListener('transitionend', function () {
+    list_slider.classList.remove('transition-height-start')
+    map_container.style.height = `calc(100dvh - var(--app-bar-height) - ${list_slider.getBoundingClientRect().height}px + var(--list-slider-knob-container-height))`
+    fitBoundsMap()
+})
 
 
 // EventListeners
@@ -533,38 +601,19 @@ gas_type_input.addEventListener('change', () => searchGasStations(gasStationsFou
 radius_input.addEventListener('input', () => searchGasStations(gasStationsFoundCallback));
 sorting_slider.addEventListener('toggle', toggleGasStationListSorting)
 location_input.addEventListener('click', showLocationSuggestionsContainer)
-location_input.addEventListener('input', getLocationSuggestions)
+location_input.addEventListener('input', debouncedGetLocalSuggestions)
 location_input.addEventListener('keydown', (evt) => {
     evt = evt || window.event;
     if (evt.keyCode == 27) { hideLocationSuggestionsContainer() }
 })
 delete_location_input.addEventListener('click', deleteAndCloseLocationInput)
-
 if (!window.matchMedia("(orientation: landscape)").matches) {
-    list_slider_search.addEventListener('touchstart', (e) => {
-        isResizingList = true;
-        previousYList = e.touches[0].clientY; // Use e.touches for touch events
-    });
-    list_slider_knob.addEventListener('touchstart', (e) => {
-        e.preventDefault(); // Prevent default touch behavior if needed
-        isResizingList = true;
-        previousYList = e.touches[0].clientY; // Use e.touches for touch events
-    });
-    document.addEventListener('touchmove', (e) => {
-        e.preventDefault(); // Prevent default touch behavior if needed
-        if (!isResizingList) return;
-    
-        const delta = e.touches[0].clientY - previousYList;
-        const computedHeight = list_slider.clientHeight - delta;
-    
-        list_slider.style.height = `${computedHeight}px`;
-        document.body.style.gridTemplateRows = `var(--app-bar-height) auto ${computedHeight}px`;
-    
-        previousYList = e.touches[0].clientY; // Use e.touches for touch events
-    });
+    // If the Window is not in Landscape, append specific functions
+    list_slider_search.addEventListener('touchstart', startDraggingListFromSearchContainer);
+    list_slider_knob.addEventListener('touchstart', startDraggingListFromKnobContainer);
+    document.addEventListener('touchmove', whileDraggingList);
     document.addEventListener('touchend', snapListToPoints);
 }
-
 document.addEventListener("DOMContentLoaded", init)
 
 // Init App
@@ -583,8 +632,11 @@ function init() {
     } else {
         initByParams()
     }
-
-    snapListToPoints()
+    if (!window.matchMedia("(orientation: landscape)").matches) {
+        snapListToPoints(true, false)
+    } else {
+        snapListToPoints(false, true)
+    }
     setTimeout(updateGasStationPrices, price_update_interval)
 
 }
