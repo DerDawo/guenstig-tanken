@@ -1,4 +1,4 @@
-import { capitalize, $id, $class, superscriptLastElement, debounce, addLeadingZero } from "./helper.js";
+import { capitalize, $id, $class, superscriptLastElement, debounce, addLeadingZero, differenceInMinutes, haversineDistance } from "./helper.js";
 import { showSnackbar } from "./components.js"
 import { API_KEY } from "./env.js";
 
@@ -7,13 +7,18 @@ import { API_KEY } from "./env.js";
 const latlngBerlin = [52.5200, 13.4050]
 const map = L.map('map').setView(latlngBerlin, 13);
 const price_update_interval = 1000 * 60 * 15;
-const config = {
-    radius: 25,
-    gas_type: 'diesel',
-    sorting: 'price'
-}
 const style = getComputedStyle(document.body)
 const css_vars = $id('css-vars')
+
+// All Searches done in a single session for optimal API usage
+// Example:
+// searches = {
+//     "51.0000,50.0021":{
+//         last_update:"",
+//         stations:[]
+//     }
+// }
+const searches = {}
 
 // DOM-Elements
 const current_location_button = $id("current-location-button");
@@ -39,7 +44,15 @@ const mid_btm_breakpoint = parseInt(getComputedStyle(css_vars).marginBottom.slic
 let lastSearchMarker;
 let searchMarkers = [];
 let gasStations = [];
+
 let sortingOption = sorting_slider.value;
+
+let latlng = {
+    lat: latlngBerlin[0],
+    lng: latlngBerlin[1],
+};
+
+
 let isResizingList = false;
 let previousYList = 0;
 let urlParams = [];
@@ -165,10 +178,13 @@ function searchLocation() {
                 return
             }
 
-            var latlng = [data[0].lat, data[0].lon];
+            latlng = {
+                lat:data[0].lat,
+                lng: data[0].lon,
+            };
             var popup_adress = data[0].display_name;
 
-            locationFound(latlng, popup_adress, LocationIcon)
+            locationFound(popup_adress, LocationIcon)
         })
         .catch(error => {
             showSnackbar("Es trat ein Fehler beim Suchen der Adresse auf.")
@@ -177,8 +193,9 @@ function searchLocation() {
 
 }
 
-function locationFound(latitude_longitude, popup_adress, icon) {
-    map.panTo(latitude_longitude, radius_input.value);
+function locationFound(popup_adress, icon) {
+
+    map.panTo([latlng.lat, latlng.lng], radius_input.value);
 
     // Remove the last search marker if it exists
     if (lastSearchMarker) {
@@ -186,7 +203,7 @@ function locationFound(latitude_longitude, popup_adress, icon) {
     }
 
     // Add a new marker for the searched location
-    lastSearchMarker = L.marker(latitude_longitude, { icon: icon() })
+    lastSearchMarker = L.marker([latlng.lat, latlng.lng], { icon: icon() })
         .addTo(map)
 
     fitBoundsMap()
@@ -302,13 +319,13 @@ function startDraggingListFromSearchContainer(event) {
     isResizingList = true;
     event.preventDefault(); // Prevent default touch behavior if needed
     previousYList = event.touches[0].clientY; // Use e.touches for touch events
-    if(event.target === location_input){
+    if (event.target === location_input) {
         location_input.click()
     }
-    if(event.target === current_location_button){
+    if (event.target === current_location_button) {
         current_location_button.click()
     }
-    if(event.target === delete_location_input){
+    if (event.target === delete_location_input) {
         delete_location_input.click()
     }
 }
@@ -340,7 +357,7 @@ function snapListToPoints(snapToMid = false, snapToTop = false) {
     list_slider.style.removeProperty('height')
     list_slider.classList.remove('transitioning-height')
     list_slider.classList.add('transition-height-start')
-    if (isResizingList){
+    if (isResizingList) {
         isResizingList = false;
     }
 
@@ -422,18 +439,54 @@ function sortGasStationListByDistance() {
 }
 
 // Search the gas stations
+function searchExists() {
+    const latlng_key = `${latlng.lat},${latlng.lng}`;
+    const now = new Date();
+    const latlngs = Object.keys(searches).map(latlng => [latlng.split(',')[0], latlng.split(',')[1]])
+
+    // If the last latlng does not exists, the search does not exists
+    if (!(latlng_key in searches)) {
+        return false
+    }
+
+    // if there is any latlng in latlngs that is outside of 0.2 kilometers, the search does not exists
+    if (latlngs.some(ll => haversineDistance(ll, latlng) <= 0.2)) {
+        return true
+    }
+
+    // If the last Update is greater than 15 minutes, the search does not exists
+    if (differenceInMinutes(searches[latlng_key].last_update, now) >= 15) {
+        return false
+    }
+
+    return true
+}
+
+function showGasStations() {
+    filterGasStations()
+    addAllGasStationMarkers()
+    sortGasStationList()
+    fillGasStationList()
+}
+
 function searchGasStations(successCallback = null) {
 
-    const radius = radius_input.value;
+    if (searchExists()) {
+        showGasStations()
+        if (successCallback !== null) {
+            successCallback()
+        }
+        return
+    }
 
-    if (!lastSearchMarker || !radius || !gas_type_input.value) {
+    if (!lastSearchMarker || !radius_input.value || !gas_type_input.value) {
         showSnackbar("Bitte geben Sie eine Adresse, einen Treibstoff und den Suchradius ein.")
         return
     }
 
-    const latlng = lastSearchMarker.getLatLng();
+    latlng = lastSearchMarker.getLatLng();
 
-    fetch(`https://creativecommons.tankerkoenig.de/json/list.php?lat=${latlng.lat}&lng=${latlng.lng}&rad=${radius}&sort=dist&type=${gas_type_input.value}&apikey=${API_KEY}`)
+    fetch(`https://creativecommons.tankerkoenig.de/json/list.php?lat=${latlng.lat}&lng=${latlng.lng}&rad=25&sort=dist&type=all&apikey=${API_KEY}`)
         .then(response => response.json())
         .then(data => {
 
@@ -446,22 +499,44 @@ function searchGasStations(successCallback = null) {
                 return
             }
 
-            gasStations = data.stations
+            const latlng_key = `${latlng.lat},${latlng.lng}`;
+            const latlng_val = {
+                last_update: new Date(),
+                stations: data.stations
+            };
 
-            addAllGasStationMarkers()
-            sortGasStationList()
-            fillGasStationList()
+            searches[latlng_key] = latlng_val;
 
+            showGasStations()
             if (successCallback !== null) {
                 successCallback()
             }
-
 
         })
         .catch(error => {
             console.error('Error:', error);
             showSnackbar("Es trat ein Fehler beim Suchen von Tankstellen auf.")
         });
+}
+
+function filterGasStations() {
+    const latlng_key = `${latlng.lat},${latlng.lng}`;
+    gasStations = searches[latlng_key].stations
+    gasStations = gasStations
+        .filter(station => station.dist <= radius_input.value)
+        .map(station => {
+            const price = station[gas_type_input.value];
+
+            // Return a new object with the updated `price` key and original properties
+            return {
+                ...station,  // Spread the existing properties
+                price: price,  // Add the new `price` key
+                diesel: undefined,  // Remove old `diesel` key
+                e5: undefined,  // Remove old `e5` key
+                e10: undefined  // Remove old `e10` key
+            };
+        }
+        )
 }
 
 // Update the GasStationPrices 
@@ -558,7 +633,10 @@ function basicInit() {
 }
 
 function initByParams() {
-    let latlng = [urlParams.get("lat"), urlParams.get("lng")]
+    latlng = {
+        lat:urlParams.get("lat"),
+        lng:urlParams.get("lng")
+    }
 
     if (urlParams.get("gas_type") !== null) {
         gas_type_input.value = urlParams.get("gas_type")
@@ -567,7 +645,7 @@ function initByParams() {
         radius_input.value = urlParams.get("radius")
     }
 
-    locationFound(latlng, "", LocationIcon)
+    locationFound("", LocationIcon)
 }
 
 
@@ -584,9 +662,12 @@ map.on('locationfound', function (e) {
         .then(data => {
             location_input.value = data.display_name
 
-            var latlng = e.latlng
+            latlng = {
+                lat:e.latlng.lat,
+                lng:e.latlng.lng,
+            }
 
-            locationFound(latlng, data.display_name, UserLocationIcon)
+            locationFound(data.display_name, UserLocationIcon)
         })
         .catch(error => {
             errorInLocalizationCallback()
