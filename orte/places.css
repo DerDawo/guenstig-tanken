@@ -249,6 +249,17 @@ body {
     filter: brightness(1);
 }
 
+.links {
+    padding: 60px;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.links > a {
+
+}
+
 @media only screen and (max-width: 768px) {
     .places {
         grid-template-columns: 150px 150px;
